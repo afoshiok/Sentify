@@ -1,3 +1,4 @@
+"""Creating a Playlist for ML model."""
 import os
 from dotenv import load_dotenv
 import spotipy #pip install spotipy
@@ -16,9 +17,12 @@ spot = spotipy.Spotify(auth_manager=SpotifyOAuth(
     scope=SCOPE)
     )
 
+def read_user_playlists():
+    "Reads user playlists"
+    res = spot.current_user_playlists(limit=None)
+    for i, item in enumerate(res['items']):
+        print("%d %s" % (i, item['name']))
+    return res
 
-
-results = spot.current_user_playlists(limit=50)
-
-for i, item in enumerate(results['items']):
-    print("%d %s" % (i, item['name']))
+if __name__ == "__main__":
+    read_user_playlists()
