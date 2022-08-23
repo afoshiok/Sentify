@@ -24,5 +24,9 @@ def read_user_playlists():
         print("%d %s" % (i, item['name']))
     return res
 
+def get_tracks():
+    #Get track recommendations: https://developer.spotify.com/documentation/web-api/reference/#/operations/get-recommendations
+    return "nothing"
+
 if __name__ == "__main__":
-    read_user_playlists()
+    print("Funcs go here")
