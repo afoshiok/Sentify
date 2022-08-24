@@ -29,4 +29,5 @@ def get_tracks():
     return "nothing"
 
 if __name__ == "__main__":
-    print("Funcs go here")
+    read_user_playlists()
+    
