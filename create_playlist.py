@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import spotipy #pip install spotipy
 from spotipy.oauth2 import SpotifyOAuth
 load_dotenv() #Loads enviornment variables
+import requests
 
 spotify_client = os.environ["spotify_client_id"]
 spotify_token = os.environ["spotify_token"]
@@ -13,13 +14,14 @@ SCOPE = 'playlist-read-private'
 spot = spotipy.Spotify(auth_manager=SpotifyOAuth(
     client_id=spotify_client,
     client_secret=spotify_token,
-    redirect_uri='http://localhost:8080',
-    scope=SCOPE)
+    redirect_uri='http://localhost:8080/callback',
+    scope=SCOPE,
+    open_browser=True)
     )
 
 def read_user_playlists():
     "Reads user playlists"
-    res = spot.current_user_playlists(limit=None)
+    res = spot.current_user_playlists(limit=20)
     for i, item in enumerate(res['items']):
         print("%d %s" % (i, item['name']))
     return res
@@ -28,6 +30,8 @@ def get_tracks():
     #Get track recommendations: https://developer.spotify.com/documentation/web-api/reference/#/operations/get-recommendations
     return "nothing"
 
+
 if __name__ == "__main__":
     read_user_playlists()
+    
     
