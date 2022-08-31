@@ -22,28 +22,31 @@ spot = spotipy.Spotify(auth_manager=auth_manager)
 
 def get_seeds():
     "Gets user's top artist and track that will be used as seed for recommendation"
+    global artist_seeds #Allow variables to be used withing get_recs
+    global track_seeds
 
     top_artists = spot.current_user_top_artists(limit=5,time_range='short_term') #short_term is about 4 weeks
     top_tracks = spot.current_user_top_tracks(limit=10,time_range='short_term')
-    artist_seed = []
+    artist_seeds = []
     track_seeds = []
-    for artist in top_artists['items']: #Creates a list of my top 5 artists name. NOTE: This is just for testing the list is going to contain their Spotify ID.
-        artist_seed.append(artist['name'])
+    for artist in top_artists['items']: #Creates a list of my top 5 artists ID.
+        artist_id = artist['id']
+        artist_seeds.append(artist_id)
 
     for tracks in top_tracks['items']:
-        track_dict = {tracks['name']:tracks['id']} #Creates a dictionary of top tracks with scheme of: {"track name" : "track id"}
-        track_seeds.append(track_dict)
-    return artist_seed, track_seeds
+        track_id = tracks['uri'] #Creates a dictionary of top tracks with scheme of: {"track name" : "track id"}
+        track_seeds.append(track_id)
+    return print(track_seeds)
 
 def get_recs():
     "Generates reccomendations based on user's taste in music with the help of get_seeds()"
-    
     recommendations = spot.recommendations(
-        seed_artists=['https://open.spotify.com/artist/7gW0r5CkdEUMm42w9XpyZO?si=8N9RAXfZTW6zxvFSqfyrPw'], # To seed multiple artist create a list of their URLs, IDs or URIs (Maximum of 5 artists)
-        seed_tracks= None, #I want this app to seed the users previously listened to tracks. I need a "user-read-recently-played" scope
-        limit= 15 #The api can generate a maximum of a 100 songs, I haven't settled yet on how many songs I want in the playlist.
+        seed_artists=artist_seeds, # To seed multiple artist create a list of their URLs, IDs or URIs (Maximum of 5 artists)
+        seed_tracks= None, #FIXME: Getting a 400 error when I try to pass track_seeds. I tried passing the IDs and URIs and it didn't work.
+        limit= 3 #The api can generate a maximum of a 100 songs, I haven't settled yet on how many songs I want in the playlist.
         )
-
+    return print(json.dumps(recommendations, indent=4))
 
 if __name__ == "__main__":
     get_seeds()
+    get_recs()
