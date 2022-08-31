@@ -1,37 +1,20 @@
-"""Creating a Playlist for ML model."""
 import os
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
 from dotenv import load_dotenv
-import spotipy #pip install spotipy
-from spotipy.oauth2 import SpotifyOAuth
-load_dotenv() #Loads enviornment variables
-import requests
+import pprint
+load_dotenv()
 
-spotify_client = os.environ["spotify_client_id"]
-spotify_token = os.environ["spotify_token"]
-
-#Allows user to login, Spotify login opens on port 8080
-SCOPE = 'playlist-read-private'
-spot = spotipy.Spotify(auth_manager=SpotifyOAuth(
-    client_id=spotify_client,
-    client_secret=spotify_token,
-    redirect_uri='http://localhost:8080/callback',
-    scope=SCOPE,
-    open_browser=True)
+spot_client = os.environ["spotify_client_id"]
+spot_token = os.environ["spotify_token"]
+auth_manager = SpotifyClientCredentials(
+    client_id=spot_client,
+    client_secret=spot_token,
+    requests_session=True
     )
+spot = spotipy.Spotify(auth_manager=auth_manager)
 
-def read_user_playlists():
-    "Reads user playlists"
-    res = spot.current_user_playlists(limit=20)
-    for i, item in enumerate(res['items']):
-        print("%d %s" % (i, item['name']))
-    return res
-
-def get_tracks():
-    #Get track recommendations: https://developer.spotify.com/documentation/web-api/reference/#/operations/get-recommendations
-    return "nothing"
-
-
-if __name__ == "__main__":
-    read_user_playlists()
-    
-    
+search_inp = input("What artist are you looking for?")
+result = spot.search(search_inp)
+pp = pprint.PrettyPrinter(indent=3)
+pp.pprint(result)
