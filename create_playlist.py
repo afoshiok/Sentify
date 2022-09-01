@@ -4,13 +4,15 @@ from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
 import pprint
 import json
+import datetime
 load_dotenv()
 
 spot_client = os.environ["spotify_client_id"]
 spot_token = os.environ["spotify_token"]
 scopes = [
     'playlist-modify-private', #Creates private playlist for user
-    'user-top-read' #Will be used for seed artist and seed track parameter in recommendation fuction
+    'user-top-read', #Will be used for seed artist and seed track parameter in recommendation fuction
+    'playlist-read-private'
     ] #Scopes I need to get this app to work. List of scopes here: https://developer.spotify.com/documentation/general/guides/authorization/scopes/ 
 auth_manager = SpotifyOAuth(
     client_id=spot_client,
@@ -47,6 +49,17 @@ def get_recs():
         )
     return print(json.dumps(recommendations, indent=4))
 
+def create_playlist():
+    current_user_id = spot.me()['id'] #Gets current user id
+    date = datetime.datetime.now()
+    today = date.strftime('%m-%d-%Y')
+    new_playlist = spot.user_playlist_create(
+        user=current_user_id, 
+        name=f"Sentiment Playlist ({today})",
+        public=False,
+        collaborative=False,
+        description= "Playlist generated based on your mood😉")
+    return print("playlist created")
+
 if __name__ == "__main__":
-    get_seeds(2,3)
-    get_recs()
+    create_playlist()
