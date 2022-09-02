@@ -85,5 +85,5 @@ def find_playlist():
 if __name__ == "__main__":
     create_playlist()
     find_playlist()
-    get_seeds(0,5)
+    get_seeds(5,0)
     get_recs()
