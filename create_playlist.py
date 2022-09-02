@@ -47,7 +47,7 @@ def get_recs():
     recommendations = spot.recommendations(
         seed_artists=artist_seeds, # To seed multiple artist create a list of their URLs, IDs or URIs 
         seed_tracks= track_seeds, 
-        limit= 3 #The api can generate a maximum of a 100 songs, I haven't settled yet on how many songs I want in the playlist.
+        limit= 20 #The api can generate a maximum of a 100 songs, I haven't settled yet on how many songs I want in the playlist.
         )
     for song in recommendations['tracks']:
         song_uri = song['uri']
