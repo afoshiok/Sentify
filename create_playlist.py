@@ -42,12 +42,18 @@ def get_seeds(artist_limit,track_limit): #Sum of limits CANNOT be greater than 5
 
 def get_recs():
     "Generates reccomendations based on user's taste in music with the help of get_seeds()"
+    global new_music
+    new_music = []
     recommendations = spot.recommendations(
         seed_artists=artist_seeds, # To seed multiple artist create a list of their URLs, IDs or URIs 
         seed_tracks= track_seeds, 
         limit= 3 #The api can generate a maximum of a 100 songs, I haven't settled yet on how many songs I want in the playlist.
         )
-    return print(json.dumps(recommendations, indent=4))
+    for song in recommendations['tracks']:
+        song_uri = song['uri']
+        new_music.append(song_uri)
+    spot.playlist_add_items(playlist_id=sentiment_playlist[0], items=new_music, position=None)
+    return print(new_music)
 
 def create_playlist():
     current_user_id = spot.me()['id'] #Gets current user id
@@ -61,5 +67,23 @@ def create_playlist():
         description= "Playlist generated based on your mood😉")
     return print("playlist created")
 
+def find_playlist():
+    date = datetime.datetime.now()
+    today = date.strftime('%m-%d-%Y')
+    user_playlist = spot.current_user_playlists(limit=None, offset=0)
+    global sentiment_playlist
+    sentiment_playlist = []
+    for playlist in user_playlist['items']:
+        if playlist['name'] == f'Sentiment Playlist ({today})':
+            playlist_uri = playlist['id']
+            print(f"Found playlist: {playlist_uri}")
+            sentiment_playlist.append(playlist_uri)
+        else:
+            pass
+    return print(sentiment_playlist)
+
 if __name__ == "__main__":
     create_playlist()
+    find_playlist()
+    get_seeds(0,5)
+    get_recs()
