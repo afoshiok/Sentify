@@ -1,8 +1,10 @@
-from fastapi import FastAPI
-from create_playlist import create_playlist,find_playlist,get_seeds,get_recs
+from flask import Flask
 
-app = FastAPI()
+app = Flask(__name__)
 
-@app.get("/")
-def root():
-    return {"message": "Hello World"}
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
+
+if __name__ == "__main__":
+    app.run()
