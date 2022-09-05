@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import Flask, session, request, redirect
 from flask_session import Session
-from create_playlist import login
+from create_playlist import find_playlist,new_playlist,get_seeds,get_recs
 import os
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -35,7 +35,6 @@ def user_login():
         scope=scopes,
         )
     global spot
-    global user
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
     return f"{user}"

@@ -59,7 +59,7 @@ def get_recs():
     spot.playlist_add_items(playlist_id=sentiment_playlist[0], items=new_music, position=None)
     return print(new_music)
 
-def create_playlist():
+def new_playlist():
     current_user_id = spot.me()['id'] #Gets current user id
     date = datetime.datetime.now()
     today = date.strftime('%m-%d-%Y')
@@ -88,7 +88,7 @@ def find_playlist():
 
 if __name__ == "__main__":
     login()
-    create_playlist()
+    new_playlist()
     find_playlist()
     get_seeds(5,0)
     get_recs()
