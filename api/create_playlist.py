@@ -7,20 +7,24 @@ import json
 import datetime
 load_dotenv()
 
-spot_client = os.environ["spotify_client_id"]
-spot_token = os.environ["spotify_token"]
-scopes = [
-    'playlist-modify-private', #Creates private playlist for user
-    'user-top-read', #Will be used for seed artist and seed track parameter in recommendation fuction
-    'playlist-read-private'
-    ] #Scopes I need to get this app to work. List of scopes here: https://developer.spotify.com/documentation/general/guides/authorization/scopes/ 
-auth_manager = SpotifyOAuth(
-    client_id=spot_client,
-    client_secret=spot_token,
-    redirect_uri="http://localhost:8080",
-    scope=scopes
-    )
-spot = spotipy.Spotify(auth_manager=auth_manager)
+def login():
+    spot_client = os.environ["spotify_client_id"]
+    spot_token = os.environ["spotify_token"]
+    scopes = [
+        'playlist-modify-private', #Creates private playlist for user
+        'user-top-read', #Will be used for seed artist and seed track parameter in recommendation fuction
+        'playlist-read-private'
+        ] #Scopes I need to get this app to work. List of scopes here: https://developer.spotify.com/documentation/general/guides/authorization/scopes/ 
+    auth_manager = SpotifyOAuth(
+        client_id=spot_client,
+        client_secret=spot_token,
+        redirect_uri="http://localhost:8080",
+        scope=scopes
+        )
+    global spot
+    global user
+    spot = spotipy.Spotify(auth_manager=auth_manager)
+    user = spot.me()['id']
 
 def get_seeds(artist_limit,track_limit): #Sum of limits CANNOT be greater than 5
     "Gets user's top artist and track that will be used as seed for recommendation"
@@ -83,6 +87,7 @@ def find_playlist():
     return print(sentiment_playlist)
 
 if __name__ == "__main__":
+    login()
     create_playlist()
     find_playlist()
     get_seeds(5,0)
