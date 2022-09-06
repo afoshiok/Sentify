@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import Flask, session, request, redirect
 from flask_session import Session
-from create_playlist import find_playlist,new_playlist,get_seeds,get_recs
+from create_playlist import *
 import os
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
@@ -38,6 +38,14 @@ def user_login():
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
     return f"{user}"
+@app.route("/createplaylist",methods = ["POST"])
+def playlist():
+    login()
+    new_playlist()
+    find_playlist()
+    get_seeds(5,0)
+    get_recs()
+    return "<h1>Playlist Created</h1>"
 
 if __name__ == "__main__":
     app.run()

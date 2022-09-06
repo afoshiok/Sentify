@@ -7,6 +7,7 @@ import json
 import datetime
 load_dotenv()
 
+__all__ = ['login', 'get_seeds', 'get_recs','new_playlist', 'find_playlist']
 def login():
     spot_client = os.environ["spotify_client_id"]
     spot_token = os.environ["spotify_token"]
@@ -42,7 +43,7 @@ def get_seeds(artist_limit,track_limit): #Sum of limits CANNOT be greater than 5
     for tracks in top_tracks['items']:
         track_id = tracks['id'] #Creates a dictionary of top tracks with scheme of: {"track name" : "track id"}
         track_seeds.append(track_id)
-    return print(track_seeds)
+    return print("Seeds found")
 
 def get_recs():
     "Generates reccomendations based on user's taste in music with the help of get_seeds()"
@@ -57,7 +58,7 @@ def get_recs():
         song_uri = song['uri']
         new_music.append(song_uri)
     spot.playlist_add_items(playlist_id=sentiment_playlist[0], items=new_music, position=None)
-    return print(new_music)
+    return print("Recommendations found")
 
 def new_playlist():
     current_user_id = spot.me()['id'] #Gets current user id
@@ -84,7 +85,7 @@ def find_playlist():
             sentiment_playlist.append(playlist_uri)
         else:
             pass
-    return print(sentiment_playlist)
+    return print("ENJOY YOUR PLAYLIST!")
 
 if __name__ == "__main__":
     login()
