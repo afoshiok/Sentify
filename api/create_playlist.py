@@ -27,13 +27,13 @@ def login():
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
 
-def get_seeds(artist_limit,track_limit): #Sum of limits CANNOT be greater than 5
+def get_seeds(artist_limit,track_limit,term='short_term'): #Sum of limits CANNOT be greater than 5
     "Gets user's top artist and track that will be used as seed for recommendation"
     global artist_seeds #Allow variables to be used withing get_recs
     global track_seeds
-
-    top_artists = spot.current_user_top_artists(limit=artist_limit,time_range='short_term') #short_term is about 4 weeks
-    top_tracks = spot.current_user_top_tracks(limit=track_limit,time_range='short_term')
+    
+    top_artists = spot.current_user_top_artists(limit=artist_limit,time_range=term) #short_term is about 4 weeks
+    top_tracks = spot.current_user_top_tracks(limit=track_limit,time_range=term)
     artist_seeds = []
     track_seeds = []
     for artist in top_artists['items']: #Creates a list of my top 5 artists ID.
@@ -43,7 +43,7 @@ def get_seeds(artist_limit,track_limit): #Sum of limits CANNOT be greater than 5
     for tracks in top_tracks['items']:
         track_id = tracks['id'] #Creates a dictionary of top tracks with scheme of: {"track name" : "track id"}
         track_seeds.append(track_id)
-    return print("Seeds found")
+    return print("Seeds found",term)
 
 def get_recs():
     "Generates reccomendations based on user's taste in music with the help of get_seeds()"
@@ -63,7 +63,7 @@ def get_recs():
 def new_playlist():
     current_user_id = spot.me()['id'] #Gets current user id
     date = datetime.datetime.now()
-    today = date.strftime('%m-%d-%Y')
+    today = date.strftime('%m-%d-%Y-%H%M%S')
     new_playlist = spot.user_playlist_create(
         user=current_user_id, 
         name=f"Sentiment Playlist ({today})",
@@ -74,7 +74,7 @@ def new_playlist():
 
 def find_playlist():
     date = datetime.datetime.now()
-    today = date.strftime('%m-%d-%Y')
+    today = date.strftime('%m-%d-%Y-%H%M%S')
     user_playlist = spot.current_user_playlists(limit=None, offset=0)
     global sentiment_playlist
     sentiment_playlist = []

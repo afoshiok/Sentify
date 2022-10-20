@@ -38,12 +38,12 @@ def user_login():
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
     return f"{user}"
-@app.route("/createplaylist",methods = ["POST"])
+@app.route("/playlist",methods = ["POST"])
 def playlist():
     login()
     new_playlist()
     find_playlist()
-    get_seeds(5,0)
+    get_seeds(5,0,'medium_term')
     get_recs()
     return "<h1>Playlist Created</h1>"
 
