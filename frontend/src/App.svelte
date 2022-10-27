@@ -1,10 +1,10 @@
 <script lang="ts">
   import svelteLogo from './assets/svelte.svg'
-  import Counter from './lib/Counter.svelte'
+  import Header from './lib/Header.svelte'
 </script>
 
 <main>
-  <h1 class= "text-3xl">Hello</h1>
+  <Header />
 </main>
 
 <style global lang="postcss">
