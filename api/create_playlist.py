@@ -1,13 +1,12 @@
 import os
 import spotipy #pip install spotipy
 from spotipy.oauth2 import SpotifyOAuth
-from dotenv import load_dotenv
-import pprint
-import json
+from dotenv import load_dotenv #pip install python-dotenv 
 import datetime
 load_dotenv()
 
 __all__ = ['login', 'get_seeds', 'get_recs','new_playlist', 'find_playlist']
+
 def login():
     spot_client = os.environ["spotify_client_id"]
     spot_token = os.environ["spotify_token"]
@@ -45,14 +44,14 @@ def get_seeds(artist_limit,track_limit,term='short_term'): #Sum of limits CANNOT
         track_seeds.append(track_id)
     return print("Seeds found",term)
 
-def get_recs():
+def get_recs(num_songs=20): #You can add up to 100 songs, but by default it adds 20 songs
     "Generates reccomendations based on user's taste in music with the help of get_seeds()"
     global new_music
     new_music = []
     recommendations = spot.recommendations(
         seed_artists=artist_seeds, # To seed multiple artist create a list of their URLs, IDs or URIs 
         seed_tracks= track_seeds, 
-        limit= 20 #The api can generate a maximum of a 100 songs, I haven't settled yet on how many songs I want in the playlist.
+        limit= num_songs #The api can generate a maximum of a 100 songs, I haven't settled yet on how many songs I want in the playlist.
         )
     for song in recommendations['tracks']:
         song_uri = song['uri']

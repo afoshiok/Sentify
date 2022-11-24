@@ -1,6 +1,5 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask import Flask, session, request, redirect
-from flask_session import Session
 from create_playlist import *
 import os
 import spotipy
@@ -10,10 +9,6 @@ import datetime
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.urandom(64)
-app.config['SESSION_TYPE'] = 'filesystem'
-app.config['SESSION_FILE_DIR'] = './.flask_session/'
-Session(app)
 
 @app.route("/")
 def hello_world():
@@ -40,12 +35,20 @@ def user_login():
     return f"{user}"
 @app.route("/playlist",methods = ["POST"])
 def playlist():
+    #Form user input
+    seed_type = request.form['seed_type']
+    songs = request.form['songs']
+    seed_term = request.form['seed_term'] #Can only be "[short, medium, long]_term" or an error will be thrown
+
     login()
     new_playlist()
     find_playlist()
-    get_seeds(5,0,'medium_term')
-    get_recs()
-    return "<h1>Playlist Created</h1>"
+    if seed_type == 'artists':
+        get_seeds(5,0,seed_term)
+    elif seed_type == 'tracks':
+        get_seeds(0,5,seed_term)
+    get_recs(num_songs=songs)
+    return jsonify(request.form)
 
 if __name__ == "__main__":
     app.run()
