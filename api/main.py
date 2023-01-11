@@ -17,7 +17,8 @@ class Recs_Model(BaseModel):  #Request body model for /recommendations
     type: str
     term: str
     songs: int
-
+                        ### Functions ###
+                        
 def recommendations(type,term: str,num_songs: int, valence: int = None):
     #Create playlist based on either the users' top 5 artists or tracks. The "valence" is my target value, 
     #determining the mood of the playlist. The valence will be determined by sentiment analysis.
@@ -102,6 +103,7 @@ def login():
     return f"Logged in as {user}"
 
                             ### ENDPOINTS ###
+
 @app.get("/healthcheck/")
 def healthcheck():
     return 'Health - OK'
