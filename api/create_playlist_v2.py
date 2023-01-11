@@ -28,7 +28,7 @@ def login():
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
 
-    return print("Current user: {}".format(user))
+    return print("Current user: {}".format(user)), spot
 
 def recommendations(type,term: str,num_songs: int, valence: int = None):
     #Create playlist based on either the users' top 5 artists or tracks. The "valence" is my target value, 
@@ -98,4 +98,4 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
 
 if __name__ == "__main__":
     login()
-    recommendations("track","medium_term",5)
+    recommendations("track","medium_term",10)
