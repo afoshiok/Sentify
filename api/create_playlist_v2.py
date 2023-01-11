@@ -6,6 +6,8 @@ import datetime
 import json
 load_dotenv()
 
+__all__ = ["login", "recommendations"]
+
 def login():
     spot_client = os.environ["spotify_client_id"]
     spot_token = os.environ["spotify_token"]
@@ -26,7 +28,7 @@ def login():
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
 
-    # return print("Current user: {}".format(user))
+    return print("Current user: {}".format(user))
 
 def recommendations(type,term: str,num_songs: int, valence: int = None):
     #Create playlist based on either the users' top 5 artists or tracks. The "valence" is my target value, 
