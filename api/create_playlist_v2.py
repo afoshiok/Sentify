@@ -44,9 +44,21 @@ def recommendations(type,term: str,num_songs: int):
         for track in song_recs['tracks']:
             tracks[track_num] = track['uri']
             track_num += 1
+        current_user = spot.me()['id']
+        playlist = spot.user_playlist_create(
+            user = current_user ,
+            name = "Sentify Playlist",
+            public = False,
+            description = "Creating playist based on how you feel 😉" )
+
+        spot.playlist_add_items(
+            playlist_id= playlist['id'], 
+            items = list(tracks.values())
+            ) 
+        print(playlist['id'])
         # print(song_recs)
         # print(artist_dict)
-        print(tracks)
+        # print(tracks)
     elif type == "track":
         top_tracks = spot.current_user_top_tracks(limit=5,time_range=term)
         return top_tracks
