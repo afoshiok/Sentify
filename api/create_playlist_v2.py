@@ -28,13 +28,18 @@ def login():
 
     return print("Current user: {}".format(user))
 
-def tops(type,term: str):
+def recommendations(type,term: str):
     if type == "artist":
         top_artists = spot.current_user_top_artists(limit=5,time_range=term)
         artist_dict = {} #Holds all data need for the frontend as well as artist URI for song recommendations
         for artist in top_artists['items']:
             artist_dict[artist['name']] = [artist['images'][0]['url'], artist['uri']]
-        print(artist_dict)
+        artist_seeds = [] #Seed used to base your playlist off of
+        for items in artist_dict.values():
+            artist_seeds.append(items[1])
+        
+        print(artist_seeds)
+        # print(artist_dict)
     elif type == "track":
         top_tracks = spot.current_user_top_tracks(limit=5,time_range=term)
         return top_tracks
@@ -42,4 +47,4 @@ def tops(type,term: str):
 
 if __name__ == "__main__":
     login()
-    tops("artist","medium_term")
+    recommendations("artist","medium_term")
