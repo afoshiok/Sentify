@@ -1,3 +1,3 @@
-from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
+from fastapi import FastAPI
 
 print("hello")
