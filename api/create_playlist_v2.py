@@ -26,9 +26,9 @@ def login():
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
 
-    return print("Current user: {}".format(user))
+    # return print("Current user: {}".format(user))
 
-def recommendations(type,term: str):
+def recommendations(type,term: str,num_songs: int):
     if type == "artist":
         top_artists = spot.current_user_top_artists(limit=5,time_range=term)
         artist_dict = {} #Holds all data need for the frontend as well as artist URI for song recommendations
@@ -38,8 +38,15 @@ def recommendations(type,term: str):
         for items in artist_dict.values():
             artist_seeds.append(items[1])
         
-        print(artist_seeds)
+        song_recs = spot.recommendations(seed_artists= artist_seeds,limit= num_songs)
+        tracks = {}
+        track_num = 0
+        for track in song_recs['tracks']:
+            tracks[track_num] = track['uri']
+            track_num += 1
+        # print(song_recs)
         # print(artist_dict)
+        print(tracks)
     elif type == "track":
         top_tracks = spot.current_user_top_tracks(limit=5,time_range=term)
         return top_tracks
@@ -47,4 +54,4 @@ def recommendations(type,term: str):
 
 if __name__ == "__main__":
     login()
-    recommendations("artist","medium_term")
+    recommendations("artist","medium_term",5)
