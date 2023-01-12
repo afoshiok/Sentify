@@ -7,6 +7,8 @@ from fastapi.responses import PlainTextResponse
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from pydantic import BaseModel
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
 
 
 load_dotenv() 

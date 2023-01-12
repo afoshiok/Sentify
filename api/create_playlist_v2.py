@@ -102,9 +102,17 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
 def sentiment(sentence):
     analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
     target: str = sentence #The sentence being tested.
-    sentiment_score = analyzer.polarity_scores(target)
-    print(sentiment_score)
+    sentiment_scores = analyzer.polarity_scores(target)
+    if sentiment_scores['compound'] >= 0:
+        sentiment_valence = {'valence' : sentiment_scores['compound']}
+        print(sentiment_scores)
+        print(sentiment_valence)
+    elif sentiment_scores['compound'] < 0:
+        sentiment_valence = {'valence' : sentiment_scores['pos']}
+        print(sentiment_scores)
+        print(sentiment_valence)
+    
 
 
 if __name__ == "__main__":
-    sentiment("I broke up with my girlfriend today")
+    sentiment("I had Taco Bell, we lit")
