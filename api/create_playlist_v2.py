@@ -105,21 +105,21 @@ def sentiment(sentence):
     sentiment_scores = analyzer.polarity_scores(target)
     if sentiment_scores['compound'] > 0 and (sentiment_scores['pos'] != 0 or sentiment_scores['neg'] != 0):
         sentiment_valence = {'valence' : sentiment_scores['compound']}
+        sentiment_scores.update(sentiment_valence)
         print(sentiment_scores)
-        print(sentiment_valence)
         print('0')
     elif sentiment_scores['compound'] < 0:
         sentiment_valence = {'valence' : sentiment_scores['pos']}
+        sentiment_scores.update(sentiment_valence)
         print(sentiment_scores)
-        print(sentiment_valence)
         print('1')
     elif sentiment_scores['pos'] == 0 and (sentiment_scores['neg'] == 0 and sentiment_scores['neu'] != 0):
         sentiment_valence = {'valence' : sentiment_scores['neu']}
+        sentiment_scores.update(sentiment_valence)
         print(sentiment_scores)
-        print(sentiment_valence)
         print('2')
     
 
 
 if __name__ == "__main__":
-    sentiment("I had a great day!")
+    sentiment("I had a really stressful day today")

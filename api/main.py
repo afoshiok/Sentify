@@ -19,6 +19,9 @@ class Recs_Model(BaseModel):  #Request body model for /recommendations
     type: str
     term: str
     songs: int
+
+class sentiment_model(BaseModel):
+    sentence: str
                         ### Functions ###
                         
 def recommendations(type,term: str,num_songs: int, valence: int = None):
@@ -111,18 +114,21 @@ def sentiment(sentence):
     sentiment_scores = analyzer.polarity_scores(target)
     if sentiment_scores['compound'] > 0 and (sentiment_scores['pos'] != 0 or sentiment_scores['neg'] != 0):
         sentiment_valence = {'valence' : sentiment_scores['compound']}
-        print(sentiment_scores)
-        print(sentiment_valence)
-
+        sentiment_scores.update(sentiment_valence)
+        # print(sentiment_scores)
+        return sentiment_scores
     elif sentiment_scores['compound'] < 0:
         sentiment_valence = {'valence' : sentiment_scores['pos']}
-        print(sentiment_scores)
-        print(sentiment_valence)
-
+        sentiment_scores.update(sentiment_valence)
+        # print(sentiment_scores)
+        return sentiment_scores
+        print('1')
     elif sentiment_scores['pos'] == 0 and (sentiment_scores['neg'] == 0 and sentiment_scores['neu'] != 0):
         sentiment_valence = {'valence' : sentiment_scores['neu']}
-        print(sentiment_scores)
-        print(sentiment_valence)
+        sentiment_scores.update(sentiment_valence)
+        # print(sentiment_scores)
+        return sentiment_scores
+        print('2')
 
 
                             ### ENDPOINTS ###
@@ -138,6 +144,12 @@ def spotify_login():
 def recs(body: Recs_Model):
     recommendations(body.type, body.term, body.songs)
     return f"{body.songs} added to your new playlist"
+
+@app.post("/sentiment", response_class=JSONResponse)
+def sentiment_test(body: sentiment_model):
+    result = sentiment(body.sentence)
+    response_json = jsonable_encoder(result)
+    return JSONResponse(content=response_json)
 
 
 if __name__ == "__main__":
