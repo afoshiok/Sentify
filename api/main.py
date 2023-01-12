@@ -83,6 +83,7 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
             ) 
 
         print(playlist['id'])
+
 def login():
     spot_client = os.environ["spotify_client_id"]
     spot_token = os.environ["spotify_token"]
@@ -101,6 +102,12 @@ def login():
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
     return f"Logged in as {user}"
+
+def sentiment(sentence):
+    analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
+    target: str = sentence #The sentence being tested.
+    sentiment_score = analyzer.polarity_scores(target)
+    print(sentiment_score)
 
                             ### ENDPOINTS ###
 

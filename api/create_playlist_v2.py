@@ -4,9 +4,13 @@ from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv #pip install python-dotenv 
 import datetime
 import json
+from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer #pip install vaderSentiment
 load_dotenv()
 
 __all__ = ["login", "recommendations"]
+
+"""This file was originally to be used on in main.py, but I had issues with variables. So, this will be a scratch pad. 
+However the function used here can be found in the FUNCTION section in main.py  """
 
 def login():
     spot_client = os.environ["spotify_client_id"]
@@ -95,7 +99,12 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
 
         print(playlist['id'])
 
+def sentiment(sentence):
+    analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
+    target: str = sentence #The sentence being tested.
+    sentiment_score = analyzer.polarity_scores(target)
+    print(sentiment_score)
+
 
 if __name__ == "__main__":
-    login()
-    recommendations("track","medium_term",10)
+    sentiment("I broke up with my girlfriend today")
