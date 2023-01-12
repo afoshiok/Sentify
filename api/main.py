@@ -108,8 +108,22 @@ def login():
 def sentiment(sentence):
     analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
     target: str = sentence #The sentence being tested.
-    sentiment_score = analyzer.polarity_scores(target)
-    print(sentiment_score)
+    sentiment_scores = analyzer.polarity_scores(target)
+    if sentiment_scores['compound'] > 0 and (sentiment_scores['pos'] != 0 or sentiment_scores['neg'] != 0):
+        sentiment_valence = {'valence' : sentiment_scores['compound']}
+        print(sentiment_scores)
+        print(sentiment_valence)
+
+    elif sentiment_scores['compound'] < 0:
+        sentiment_valence = {'valence' : sentiment_scores['pos']}
+        print(sentiment_scores)
+        print(sentiment_valence)
+
+    elif sentiment_scores['pos'] == 0 and (sentiment_scores['neg'] == 0 and sentiment_scores['neu'] != 0):
+        sentiment_valence = {'valence' : sentiment_scores['neu']}
+        print(sentiment_scores)
+        print(sentiment_valence)
+
 
                             ### ENDPOINTS ###
 
