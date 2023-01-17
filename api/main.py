@@ -93,7 +93,7 @@ def login():
     spot_client = os.environ["spotify_client_id"]
     spot_token = os.environ["spotify_token"]
     redirect = os.environ["redirect_uri"]
-    scopes = "user-top-read,playlist-read-private,user-top-read"
+    scopes = "user-top-read,playlist-read-private,user-top-read, playlist-modify-public"
         
     
     auth_manager = SpotifyOAuth(
