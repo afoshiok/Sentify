@@ -93,14 +93,14 @@ def login():
     spot_client = os.environ["spotify_client_id"]
     spot_token = os.environ["spotify_token"]
     redirect = os.environ["redirect_uri"]
-    scopes = "user-top-read, playlist-read-private, user-top-read"
+    scopes = "user-top-read,playlist-read-private,user-top-read"
         
     
     auth_manager = SpotifyOAuth(
         client_id= spot_client,
         client_secret=spot_token,
         redirect_uri= redirect,
-        scope=scopes
+        scope=scopes,
     )
     
     global spot
@@ -142,6 +142,7 @@ def spotify_login():
     login()
 @app.post("/recommendations", response_class=PlainTextResponse)
 def recs(body: Recs_Model):
+    login()
     recommendations(body.type, body.term, body.songs)
     return f"{body.songs} added to your new playlist"
 
