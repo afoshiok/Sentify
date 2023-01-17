@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 
 
-load_dotenv() 
+load_dotenv()
 
 app = FastAPI()
 
