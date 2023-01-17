@@ -106,7 +106,7 @@ def login():
     global spot
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
-    return f"Logged in as {user}"
+    return user
 
 def sentiment(sentence):
     analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
