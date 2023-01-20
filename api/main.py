@@ -46,7 +46,6 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
         playlist = spot.user_playlist_create(
             user = current_user ,
             name = "Sentify Playlist",
-            public = False,
             description = "Creating playist based on how you feel 😉" )
 
         spot.playlist_add_items(
