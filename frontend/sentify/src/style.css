@@ -3,5 +3,6 @@
 @tailwind utilities;
 
 header{
-  font-family: "JetBrains Mono", monospace; ;
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 800;
 }

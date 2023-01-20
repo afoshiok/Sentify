@@ -1,3 +1,5 @@
 <template>
-    <h1>HELLO</h1>
+    <section class="flex justify-center align-center min-h-screen">
+        <button>Login</button>
+    </section>
 </template>
