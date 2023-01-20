@@ -8,7 +8,11 @@
         </a>
         <a class="py-2 px-8 text-lg">About</a> 
       </div> 
+      
     </header>
+    <main>
+      <router-view></router-view>
+    </main>
   </body>
 </template>
 
