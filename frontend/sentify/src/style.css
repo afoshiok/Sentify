@@ -6,3 +6,8 @@ header{
   font-family: "JetBrains Mono", monospace;
   font-weight: 800;
 }
+
+#login_btn{
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 700;
+}
