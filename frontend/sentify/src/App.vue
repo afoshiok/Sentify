@@ -1,6 +1,6 @@
 <template>
   <body class="container mx-auto">
-    <header class="flex my-8">
+    <header class="flex my-8 mx-4">
       <h1 class="flex-auto text-4xl text-bold" id="Title">Sentify</h1>
       <div class="flex flex-row">
         <a href="https://github.com/afoshiok/Perfect-Spotify-Playlist">
