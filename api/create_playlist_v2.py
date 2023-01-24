@@ -122,25 +122,35 @@ def sentiment(sentence):
 def tops(choice,term):
     if choice == 'artists':
         top_artists = spot.current_user_top_artists(limit=5,time_range=term)
-        artist_array = [] # Allows to add multiple dict, for json respone in api
+        artist_json = [] # Allows to add multiple dict, for json respone in api
         for artist in top_artists['items']:
             artist_dict = {}
             artist_dict['Name'] = artist['name']
             artist_dict['Photo'] = artist['images'][0]['url']
             artist_dict['Genres'] = artist['genres']
             artist_dict['Popularity'] = artist['popularity']
-            artist_array.append(artist_dict)
+            artist_json.append(artist_dict)
             # print(artist_dict['Name'])
 
-        print(artist_array)
+        print(artist_json)
 
         # print(top_artists)
-        print('1')
     elif choice == 'tracks':
         top_tracks = spot.current_user_top_tracks(limit=5, time_range=term)
-        print(top_tracks)
+        track_json = []
+        for tracks in top_tracks['items']:
+            track_dict = {}
+            track_dict['Name'] = tracks['name']
+            artists_list = [] #There can be more than one artist on a track
+            for artist in tracks['artists']:
+                artists_list.append(artist['name'])
+            track_dict['Artists'] = artists_list
+            track_dict['Cover'] = tracks['album']['images'][0]
+            track_dict['Popularity'] = tracks['popularity']
+            track_json.append(track_dict)
+        print(track_json)
 
 
 if __name__ == "__main__":
     login()
-    tops('artists','short_term')
+    tops('tracks','short_term')
