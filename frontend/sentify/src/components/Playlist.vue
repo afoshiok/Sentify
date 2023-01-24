@@ -48,16 +48,11 @@
     </section>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
     import { ref } from 'vue';
 
-    export default {
-        setup(){
-            let song_num = ref(10)
-            return {
-                song_num
-            }
-        }
-    }
+    //State
+    let song_num = ref(10)
+
     
 </script>
