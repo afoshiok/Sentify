@@ -49,10 +49,14 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from 'vue';
+    import { ref, reactive, watch } from 'vue';
 
     //State
     let song_num = ref(10)
+
+
+    //Debugging
+    watch(song_num, () => console.log(`${song_num.value}`) )
 
     
 </script>
