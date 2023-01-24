@@ -120,14 +120,27 @@ def sentiment(sentence):
         print('2')
 
 def tops(choice,term):
-    """This function retrieves data on the user top artists/track (Mainly photo and name)"""
     if choice == 'artists':
         top_artists = spot.current_user_top_artists(limit=5,time_range=term)
-        print(top_artists)
+        artist_array = [] # Allows to add multiple dict, for json respone in api
+        for artist in top_artists['items']:
+            artist_dict = {}
+            artist_dict['Name'] = artist['name']
+            artist_dict['Photo'] = artist['images'][0]['url']
+            artist_dict['Genres'] = artist['genres']
+            artist_dict['Popularity'] = artist['popularity']
+            artist_array.append(artist_dict)
+            # print(artist_dict['Name'])
+
+        print(artist_array)
+
+        # print(top_artists)
+        print('1')
     elif choice == 'tracks':
         top_tracks = spot.current_user_top_tracks(limit=5, time_range=term)
+        print(top_tracks)
 
 
 if __name__ == "__main__":
     login()
-    tops('artist','short_term')
+    tops('artists','short_term')
