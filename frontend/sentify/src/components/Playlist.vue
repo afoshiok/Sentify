@@ -6,7 +6,7 @@
             </div>
             <div class="mb-8">
                 <label class="px-1">Number of songs</label>
-                <input type="range" min="0" max="100" v-bind:value="song_num" class="range range-primary" step="10"/>
+                <input v-model="song_num" type="range" min="0" max="100" class="range range-primary" step="10"/>
             </div>
 
             <!-- Radio buttons for Seed preference -->
@@ -29,7 +29,7 @@
 
                 <!-- Select for Seed time range -->
                 <div class="flex flex-col justify-center items-center">
-                    <select class="select select-bordered w-3/4 max-w-xs">
+                    <select class="bg-white select select-bordered w-3/4 max-w-xs">
                         <option disabled selected>Choose time range for seeds</option>
                         <option>Short</option>
                         <option>Medium</option>
@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts">
-    import { reactive, ref } from 'vue';
+    import { ref } from 'vue';
 
     export default {
         setup(){
