@@ -118,8 +118,16 @@ def sentiment(sentence):
         sentiment_scores.update(sentiment_valence)
         print(sentiment_scores)
         print('2')
-    
+
+def tops(choice,term):
+    """This function retrieves data on the user top artists/track (Mainly photo and name)"""
+    if choice == 'artists':
+        top_artists = spot.current_user_top_artists(limit=5,time_range=term)
+        print(top_artists)
+    elif choice == 'tracks':
+        top_tracks = spot.current_user_top_tracks(limit=5, time_range=term)
 
 
 if __name__ == "__main__":
-    sentiment("I had a really stressful day today")
+    login()
+    tops('artist','short_term')
