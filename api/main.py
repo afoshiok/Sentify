@@ -130,6 +130,39 @@ def sentiment(sentence):
         print('2')
 
 
+def tops(choice,term):
+    if choice == 'artists':
+        top_artists = spot.current_user_top_artists(limit=5,time_range=term)
+        artist_json = []
+        for artist in top_artists['items']:
+            artist_dict = {}
+            artist_dict['Name'] = artist['name']
+            artist_dict['Photo'] = artist['images'][0]['url']
+            artist_dict['Genres'] = artist['genres']
+            artist_dict['Popularity'] = artist['popularity']
+            artist_json.append(artist_dict)
+            
+
+        return artist_json
+
+        # print(top_artists)
+    elif choice == 'tracks':
+        top_tracks = spot.current_user_top_tracks(limit=5, time_range=term)
+        track_json = []
+        for tracks in top_tracks['items']:
+            track_dict = {}
+            track_dict['Name'] = tracks['name']
+            artists_list = [] #There can be more than one artist on a track
+            for artist in tracks['artists']:
+                artists_list.append(artist['name'])
+            track_dict['Artists'] = artists_list
+            track_dict['Cover'] = tracks['album']['images'][0]
+            track_dict['Popularity'] = tracks['popularity']
+            track_json.append(track_dict)
+
+        return track_json
+
+
                             ### ENDPOINTS ###
 
 @app.get("/healthcheck/")
@@ -148,6 +181,13 @@ def recs(body: Recs_Model):
 @app.post("/sentiment", response_class=JSONResponse)
 def sentiment_test(body: sentiment_model):
     result = sentiment(body.sentence)
+    response_json = jsonable_encoder(result)
+    return JSONResponse(content=response_json)
+
+@app.get("/tops/{seed_type}/{seed_range}", response_class=JSONResponse)
+def get_tops(seed_type,seed_range):
+    login()
+    result = tops(seed_type, seed_range)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
 
