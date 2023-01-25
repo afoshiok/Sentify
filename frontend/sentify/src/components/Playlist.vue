@@ -16,33 +16,33 @@
                     <div class="form-control">
                         <label class="label cursor-pointer">
                         <span class="label-text">Artist</span> 
-                        <input type="radio" name="Seed-Option" class="radio checked:bg-black" checked />
+                        <input v-model="seed_choice" type="radio" name="Seed-Option" value="artists" class="radio checked:bg-black" />
                         </label>
                     </div>
                     <div class="form-control">
                         <label class="label cursor-pointer">
                             <span class="label-text">Tracks</span> 
-                            <input type="radio" name="Seed-Option" class="radio checked:bg-black" checked />
+                            <input v-model="seed_choice" type="radio" name="Seed-Option" value="tracks" class="radio checked:bg-black" checked />
                         </label>
                     </div>
                 </div>
 
                 <!-- Select for Seed time range -->
                 <div class="flex flex-col justify-center items-center">
-                    <select class="bg-white select select-bordered w-3/4 max-w-xs">
-                        <option disabled selected>Choose time range for seeds</option>
-                        <option>Short</option>
-                        <option>Medium</option>
-                        <option>Long</option>
+                    <select v-model="range" class="bg-white select select-bordered w-3/4 max-w-xs">
+                        <option value="" disabled selected>Choose time range for seeds</option>
+                        <option value="short_term">Short</option>
+                        <option value="medium_term">Medium</option>
+                        <option value="long_term">Long</option>
                     </select>
-                    <button>Preview</button>
+                    <button @click="tops(seed_choice, range)">Preview</button>
                 </div>
                 
             </div> 
         </section>
         <div class="mt-10 flex justify-center">
             <button class="bg-white rounded-lg h-14 w-72 flex flex-row justify-center items-center outline-4 outline-dashed">
-                <span class="text-lg">Generate {{song_num}} playlist!</span>
+                <span class="text-lg">Generate {{song_num}} song playlist!</span>
             </button>
         </div>
     </section>
@@ -50,13 +50,26 @@
 
 <script setup lang="ts">
     import { ref, reactive, watch } from 'vue';
+    import axios from 'axios'
 
     //State
     let song_num = ref(10)
+    let range = ref('')
+    let seed_choice = ref('')
 
-
+    //Methods
+    function tops(seed: string, range: string){
+        axios.get(`http://localhost:5000/tops/${seed}/${range}`)
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((error) =>{
+            console.log(error)
+        })
+    }
     //Debugging
-    watch(song_num, () => console.log(`${song_num.value}`) )
+    watch(range, () => console.log(`${range.value}`) )
+    watch(seed_choice, () => console.log(`${seed_choice.value}`) )
 
     
 </script>
