@@ -40,7 +40,6 @@
                 
             </div> 
         </section>
-        </section>
         <div class="mt-10 flex justify-center">
             <button class="bg-white rounded-lg h-14 w-72 flex flex-row justify-center items-center outline-4 outline-dashed">
                 <span class="text-lg">Generate {{song_num}} song playlist!</span>
@@ -64,6 +63,7 @@
         axios.get(`http://localhost:5000/tops/${seed}/${range}`)
         .then((response) => {
             console.log(response.data)
+            preview_data.value = response.data
         })
         .catch((error) =>{
             console.log(error)
