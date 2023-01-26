@@ -16,13 +16,13 @@
                     <div class="form-control">
                         <label class="label cursor-pointer">
                         <span class="label-text">Artist</span> 
-                        <input v-model="seed_choice" type="radio" name="Seed-Option" value="artists" class="radio checked:bg-black" />
+                        <input v-model="seed_choice" type="radio" name="Seed-Option" value="artists" class="radio checked:bg-black" checked/>
                         </label>
                     </div>
                     <div class="form-control">
                         <label class="label cursor-pointer">
                             <span class="label-text">Tracks</span> 
-                            <input v-model="seed_choice" type="radio" name="Seed-Option" value="tracks" class="radio checked:bg-black" checked />
+                            <input v-model="seed_choice" type="radio" name="Seed-Option" value="tracks" class="radio checked:bg-black"/>
                         </label>
                     </div>
                 </div>
@@ -40,6 +40,7 @@
                 
             </div> 
         </section>
+        </section>
         <div class="mt-10 flex justify-center">
             <button class="bg-white rounded-lg h-14 w-72 flex flex-row justify-center items-center outline-4 outline-dashed">
                 <span class="text-lg">Generate {{song_num}} song playlist!</span>
@@ -55,21 +56,23 @@
     //State
     let song_num = ref(10)
     let range = ref('')
-    let seed_choice = ref('')
+    let seed_choice = ref('artist')
+    let preview_data = ref()
 
     //Methods
     function tops(seed: string, range: string){
         axios.get(`http://localhost:5000/tops/${seed}/${range}`)
         .then((response) => {
-            console.log(response)
+            console.log(response.data)
         })
         .catch((error) =>{
             console.log(error)
         })
     }
     //Debugging
-    watch(range, () => console.log(`${range.value}`) )
-    watch(seed_choice, () => console.log(`${seed_choice.value}`) )
+    // watch(range, () => console.log(`${range.value}`) )
+    // watch(seed_choice, () => console.log(`${seed_choice.value}`) )
+    watch(preview_data, () => console.log(`${preview_data.value}`))
 
     
 </script>
