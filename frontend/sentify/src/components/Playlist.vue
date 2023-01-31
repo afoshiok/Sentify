@@ -42,8 +42,17 @@
         </section>
 
         <!-- Renders preview of seeds -->
-        <div v-if="!!preview_data && seed_choice == 'artists' ">
-            <img v-bind:src="preview_data[0].Photo" alt="Album/Arstist Cover" width="200" height="200">
+        <div v-if="!!preview_data && seed_choice == 'artists'" class="card w-72 bg-base-100">
+            <figure class="px-4 pt-6">
+                <img v-bind:src="preview_data[0].Photo" alt="Album/Arstist Cover" width="300" height="300" class="rounded-md">
+            </figure>
+            <div class="card-body items-center text-center">
+                <h2 class="card-title">{{ preview_data[0].Name }}</h2>
+                <p>{{ preview_data[0].Genres }}</p>
+                <div class="card-actions">
+                    <p>Popularity Score: {{ preview_data[0].Popularity }}</p>
+                </div>
+            </div>
         </div>
         <div v-else></div>
 
