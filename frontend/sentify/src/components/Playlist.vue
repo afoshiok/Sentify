@@ -42,7 +42,7 @@
         </section>
 
         <!-- Renders preview of seeds -->
-        <div v-if="!!preview_data && seed_choice == 'artists'" class="card w-72 bg-base-100">
+        <div v-if="!!preview_data && seed_choice == 'artists'" class="border-4 border-black card w-72 bg-base-100">
             <figure class="px-4 pt-6">
                 <img v-bind:src="preview_data[0].Photo" alt="Album/Arstist Cover" width="300" height="300" class="rounded-md">
             </figure>
