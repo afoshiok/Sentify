@@ -40,6 +40,14 @@
                 
             </div> 
         </section>
+
+        <!-- Renders preview of seeds -->
+        <div v-if="!!preview_data && seed_choice == 'artists' ">
+            <img v-bind:src="preview_data[0].Photo" alt="Album/Arstist Cover" width="200" height="200">
+        </div>
+        <div v-else></div>
+
+
         <div class="mt-10 flex justify-center">
             <button class="bg-white rounded-lg h-14 w-72 flex flex-row justify-center items-center outline-4 outline-dashed">
                 <span class="text-lg">Generate {{song_num}} song playlist!</span>
@@ -55,7 +63,7 @@
     //State
     let song_num = ref(10)
     let range = ref('')
-    let seed_choice = ref('artist')
+    let seed_choice = ref('artists')
     let preview_data = ref()
 
     //Methods
