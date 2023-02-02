@@ -1,5 +1,5 @@
 <template>
-  <body class="container mx-auto">
+  <body class="container mx-auto max-w-6xl">
     <header class="flex my-8 mx-4">
       <h1 class="flex-auto text-4xl text-bold" id="Title">Sentify</h1>
       <div class="flex flex-row">
