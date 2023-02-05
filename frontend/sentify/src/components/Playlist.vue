@@ -42,8 +42,11 @@
         </section>
 
         <!-- Renders preview of artist seeds -->
-        <ul v-if="!!preview_data && seed_choice == 'artists'" class="flex flex-row pt-10 overflow-x-scroll" >
-            <li v-for="(item,index) in preview_data" class="px-2">
+        <div v-if="!!preview_data" class="pt-4 flex justify-center">
+            <h1>Your top: {{ seed_choice }}</h1>
+        </div>
+        <ul v-if="!!preview_data && seed_choice == 'artists'" class="flex flex-row pt-8 overflow-x-scroll scrollbar scrollbar-thumb-primary">
+            <li v-for="(item,index) in preview_data" class="px-2 pb-6">
                 <div class="border-4 border-black card w-72 bg-base-100">
                     <figure class="px-4 pt-6">
                         <img v-bind:src="preview_data[index].Photo" alt="Album/Arstist Cover" width="300" height="300" class="rounded-md">
@@ -61,8 +64,8 @@
         <div v-else></div>
 
         <!-- Renders preview of tracks seeds -->
-        <ul v-if="!!preview_data && seed_choice == 'tracks'" class="flex flex-row pt-10 overflow-x-scroll" >
-            <li v-for="(item,index) in preview_data" class="px-2">
+        <ul v-if="!!preview_data && seed_choice == 'tracks'" class="flex flex-row pt-10 overflow-x-scroll scrollbar scrollbar-thumb-primary" >
+            <li v-for="(item,index) in preview_data" class="px-2 pb-6">
                 <div class="border-4 border-black card w-72 bg-base-100">
                     <figure class="px-4 pt-6">
                         <img v-bind:src="preview_data[index].Cover.url" alt="Album/Arstist Cover" width="300" height="300" class="rounded-md">
