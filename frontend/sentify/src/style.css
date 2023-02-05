@@ -16,3 +16,18 @@ header{
   font-family: "JetBrains Mono", monospace;
   font-weight: 700;
 }
+
+h1{
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 800;
+}
+
+h2{
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 600;
+}
+
+p, label, span, select{
+  font-family: "JetBrains Mono", monospace;
+  font-weight: 300;
+}

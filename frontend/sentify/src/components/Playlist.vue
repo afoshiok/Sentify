@@ -72,7 +72,9 @@
                     </figure>
                     <div class="card-body items-center text-center">
                         <h2 class="card-title">{{ preview_data[index].Name }}</h2>
-                        <h3>{{ preview_data[index].Artists }}</h3>
+                        <div v-for="item in preview_data[index].Artists">
+                            <h3>{{ item }}</h3>
+                        </div>
                         <p>{{ preview_data[index].Genres }}</p>
                         <div class="card-actions">
                             <p>Popularity Score: {{ preview_data[index].Popularity }}</p>
@@ -84,8 +86,8 @@
         <div v-else></div>
 
         <div class="mt-10 flex justify-center">
-            <button class="bg-white rounded-lg h-14 w-72 flex flex-row justify-center items-center outline-4 outline-dashed">
-                <span class="text-lg">Generate {{song_num}} song playlist!</span>
+            <button class="bg-white rounded-lg h-14 w-72 p-2 flex flex-row justify-center items-center outline-4 outline-dashed">
+                <h1 class="text-md">Generate a {{song_num}} song playlist!</h1>
             </button>
         </div>
     </section>
