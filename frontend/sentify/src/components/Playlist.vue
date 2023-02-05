@@ -41,7 +41,7 @@
             </div> 
         </section>
 
-        <!-- Renders preview of seeds -->
+        <!-- Renders preview of artist seeds -->
         <ul v-if="!!preview_data && seed_choice == 'artists'" class="flex flex-row pt-10 overflow-x-scroll" >
             <li v-for="(item,index) in preview_data" class="px-2">
                 <div class="border-4 border-black card w-72 bg-base-100">
@@ -60,6 +60,25 @@
         </ul>
         <div v-else></div>
 
+        <!-- Renders preview of tracks seeds -->
+        <ul v-if="!!preview_data && seed_choice == 'tracks'" class="flex flex-row pt-10 overflow-x-scroll" >
+            <li v-for="(item,index) in preview_data" class="px-2">
+                <div class="border-4 border-black card w-72 bg-base-100">
+                    <figure class="px-4 pt-6">
+                        <img v-bind:src="preview_data[index].Cover.url" alt="Album/Arstist Cover" width="300" height="300" class="rounded-md">
+                    </figure>
+                    <div class="card-body items-center text-center">
+                        <h2 class="card-title">{{ preview_data[index].Name }}</h2>
+                        <h3>{{ preview_data[index].Artists }}</h3>
+                        <p>{{ preview_data[index].Genres }}</p>
+                        <div class="card-actions">
+                            <p>Popularity Score: {{ preview_data[index].Popularity }}</p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div v-else></div>
 
         <div class="mt-10 flex justify-center">
             <button class="bg-white rounded-lg h-14 w-72 flex flex-row justify-center items-center outline-4 outline-dashed">
