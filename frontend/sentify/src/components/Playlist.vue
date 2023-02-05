@@ -42,7 +42,7 @@
         </section>
 
         <!-- Renders preview of artist seeds -->
-        <div v-if="!!preview_data" class="pt-4 flex justify-center">
+        <div v-if="!!preview_data" class="py-4 flex justify-center">
             <h1>Your top: {{ seed_choice }}</h1>
         </div>
         <ul v-if="!!preview_data && seed_choice == 'artists'" class="flex flex-row pt-8 overflow-x-scroll scrollbar scrollbar-thumb-primary">
