@@ -32,14 +32,23 @@ class Recs_Model(BaseModel):  #Request body model for /recommendations
     type: str
     term: str
     songs: int
+    sentence: str
 
 class sentiment_model(BaseModel):
     sentence: str
                         ### Functions ###
+
+def sentiment(sentence):
+    analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
+    target: str = sentence #The sentence being tested.
+    sentiment_scores = analyzer.polarity_scores(target)
+    sentiment_scores['compound'] = (sentiment_scores['compound'] + 1) / 2 #Normailizing negative values to fit between 0 and 1
+    return sentiment_scores
                         
-def recommendations(type,term: str,num_songs: int, valence: int = None):
+def recommendations(type,term: str,num_songs: int, sentence: str):
     #Create playlist based on either the users' top 5 artists or tracks. The "valence" is my target value, 
     #determining the mood of the playlist. The valence will be determined by sentiment analysis.
+    sentiment_score = sentiment(sentence)
     if type == "artists":
         top_artists = spot.current_user_top_artists(limit=5,time_range=term)
         artist_dict = {} #Holds all data need for the frontend as well as artist URI for song recommendations
@@ -49,7 +58,7 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
         for items in artist_dict.values():
             artist_seeds.append(items[1])
         
-        song_recs = spot.recommendations(seed_artists= artist_seeds,limit= num_songs)
+        song_recs = spot.recommendations(seed_artists= artist_seeds,limit= num_songs, target_valence=sentiment_score['compound'])
         tracks = {}
         track_num = 0
         for track in song_recs['tracks']:
@@ -59,7 +68,7 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
         playlist = spot.user_playlist_create(
             user = current_user ,
             name = "Sentify Playlist",
-            description = "Creating playist based on how you feel 😉" )
+            description = f"Your sentiment score was: {sentiment_score}" )
 
         spot.playlist_add_items(
             playlist_id= playlist['id'], 
@@ -81,7 +90,7 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
         for item in track_dict.values():
             track_seeds.append(item)
 
-        song_recs = spot.recommendations(seed_tracks= track_seeds, limit= num_songs)
+        song_recs = spot.recommendations(seed_tracks= track_seeds, limit= num_songs, target_valence=sentiment_score['compound'])
         tracks = {}
         track_num = 0
         for track in song_recs['tracks']:
@@ -92,7 +101,7 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
             user = current_user ,
             name = "Sentify Playlist",
             public = False,
-            description = "Creating playist based on how you feel 😉" )
+            description = f"Your sentiment score was: {sentiment_score}" )
 
         spot.playlist_add_items(
             playlist_id= playlist['id'], 
@@ -120,13 +129,7 @@ def login():
     user = spot.me()['id']
     return user
 
-def sentiment(sentence):
-    analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
-    target: str = sentence #The sentence being tested.
-    sentiment_scores = analyzer.polarity_scores(target)
-    if sentiment_scores['compound'] < 0: #Normailizing negative values to fit between 0 and 1
-        sentiment_scores['compound'] = (sentiment_scores['compound'] + 1) / 2
-    return sentiment_scores
+
 
 
 def tops(choice,term):
@@ -174,7 +177,7 @@ def spotify_login():
 @app.post("/recommendations", response_class=PlainTextResponse)
 def recs(body: Recs_Model):
     login()
-    recommendations(body.type, body.term, body.songs)
+    recommendations(body.type, body.term, body.songs, body.sentence)
     return f"{body.songs} added to your new playlist"
 
 @app.post("/sentiment", response_class=JSONResponse)
