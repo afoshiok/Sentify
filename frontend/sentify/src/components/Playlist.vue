@@ -2,7 +2,7 @@
     <section class="flex flex-col justify-center align-center min-h-screen">
         <section>
             <div class="flex justify-center">
-                <textarea class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4" type="text" placeholder="You feeling sad, happy...meh? Let me know!"></textarea>
+                <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4" type="text" placeholder="You feeling sad, happy...meh? Let me know!"></textarea>
             </div>
             <div class="mb-8">
                 <label class="px-1">Number of songs</label>
@@ -111,6 +111,7 @@
     let range = ref('')
     let seed_choice = ref('artists')
     let preview_data = ref()
+    let textbox = ref('')
 
 
     //Methods
@@ -129,7 +130,8 @@
         axios.post('http://localhost:5000/recommendations', {
         type: seed_choice.value,
         term: range.value,
-        songs: song_num.value
+        songs: song_num.value,
+        sentence: textbox.value
     }, axiosConfig)
         .then((response) =>{
             console.log(response)
@@ -138,6 +140,7 @@
             console.log(error)
         })
     }
+
     //Debugging
     // watch(range, () => console.log(`${range.value}`) )
     // watch(seed_choice, () => console.log(`${seed_choice.value}`) )
