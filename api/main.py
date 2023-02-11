@@ -124,23 +124,9 @@ def sentiment(sentence):
     analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
     target: str = sentence #The sentence being tested.
     sentiment_scores = analyzer.polarity_scores(target)
-    if sentiment_scores['compound'] > 0 and (sentiment_scores['pos'] != 0 or sentiment_scores['neg'] != 0):
-        sentiment_valence = {'valence' : sentiment_scores['compound']}
-        sentiment_scores.update(sentiment_valence)
-        # print(sentiment_scores)
-        return sentiment_scores
-    elif sentiment_scores['compound'] < 0:
-        sentiment_valence = {'valence' : sentiment_scores['pos']}
-        sentiment_scores.update(sentiment_valence)
-        # print(sentiment_scores)
-        return sentiment_scores
-        print('1')
-    elif sentiment_scores['pos'] == 0 and (sentiment_scores['neg'] == 0 and sentiment_scores['neu'] != 0):
-        sentiment_valence = {'valence' : sentiment_scores['neu']}
-        sentiment_scores.update(sentiment_valence)
-        # print(sentiment_scores)
-        return sentiment_scores
-        print('2')
+    if sentiment_scores['compound'] < 0: #Normailizing negative values to fit between 0 and 1
+        sentiment_scores['compound'] = (sentiment_scores['compound'] + 1) / 2
+    return sentiment_scores
 
 
 def tops(choice,term):

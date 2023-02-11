@@ -103,21 +103,10 @@ def sentiment(sentence):
     analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
     target: str = sentence #The sentence being tested.
     sentiment_scores = analyzer.polarity_scores(target)
-    if sentiment_scores['compound'] > 0 and (sentiment_scores['pos'] != 0 or sentiment_scores['neg'] != 0):
-        sentiment_valence = {'valence' : sentiment_scores['compound']}
-        sentiment_scores.update(sentiment_valence)
-        print(sentiment_scores)
-        print('0')
-    elif sentiment_scores['compound'] < 0:
-        sentiment_valence = {'valence' : sentiment_scores['pos']}
-        sentiment_scores.update(sentiment_valence)
-        print(sentiment_scores)
-        print('1')
-    elif sentiment_scores['pos'] == 0 and (sentiment_scores['neg'] == 0 and sentiment_scores['neu'] != 0):
-        sentiment_valence = {'valence' : sentiment_scores['neu']}
-        sentiment_scores.update(sentiment_valence)
-        print(sentiment_scores)
-        print('2')
+    if sentiment_scores['compound'] < 0: #Normailizing negative values
+        sentiment_scores['compound'] = (sentiment_scores['compound'] + 1) / 2
+        print('normaized')
+    print (sentiment_scores)
 
 def tops(choice,term):
     if choice == 'artists':
@@ -152,5 +141,4 @@ def tops(choice,term):
 
 
 if __name__ == "__main__":
-    login()
-    tops('tracks','short_term')
+    sentiment("I had a really really great day!")
