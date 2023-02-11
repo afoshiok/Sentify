@@ -22,7 +22,7 @@ h1{
   font-weight: 800;
 }
 
-h2{
+h2, button{
   font-family: "JetBrains Mono", monospace;
   font-weight: 600;
 }

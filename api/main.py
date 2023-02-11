@@ -40,7 +40,7 @@ class sentiment_model(BaseModel):
 def recommendations(type,term: str,num_songs: int, valence: int = None):
     #Create playlist based on either the users' top 5 artists or tracks. The "valence" is my target value, 
     #determining the mood of the playlist. The valence will be determined by sentiment analysis.
-    if type == "artist":
+    if type == "artists":
         top_artists = spot.current_user_top_artists(limit=5,time_range=term)
         artist_dict = {} #Holds all data need for the frontend as well as artist URI for song recommendations
         for artist in top_artists['items']:
@@ -71,7 +71,7 @@ def recommendations(type,term: str,num_songs: int, valence: int = None):
         # print(song_recs)
         # print(artist_dict)
         # print(tracks)
-    elif type == "track":
+    elif type == "tracks":
         top_tracks = spot.current_user_top_tracks(limit=5,time_range=term)
         track_dict = {}
 

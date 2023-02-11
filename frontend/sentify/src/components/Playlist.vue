@@ -2,7 +2,7 @@
     <section class="flex flex-col justify-center align-center min-h-screen">
         <section>
             <div class="flex justify-center">
-                <textarea class="border-4 border-black px-2 m-2 rounded-md w-3/4" type="text" placeholder="Say anything..."></textarea>
+                <textarea class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4" type="text" placeholder="You feeling sad, happy...meh? Let me know!"></textarea>
             </div>
             <div class="mb-8">
                 <label class="px-1">Number of songs</label>
@@ -35,7 +35,7 @@
                         <option value="medium_term">Medium</option>
                         <option value="long_term">Long</option>
                     </select>
-                    <button @click="tops(seed_choice, range)">Preview</button>
+                    <button @click="tops(seed_choice, range)" class="hover:underline">Preview</button>
                 </div>
                 
             </div> 
@@ -86,7 +86,7 @@
         <div v-else></div>
 
         <div class="mt-10 flex justify-center">
-            <button class="bg-white rounded-lg h-14 w-72 p-2 flex flex-row justify-center items-center outline-4 outline-dashed">
+            <button @click="recommendations()" class="bg-white rounded-lg h-14 w-72 p-2 flex flex-row justify-center items-center outline-4 outline-dashed">
                 <h1 class="text-md">Generate a {{song_num}} song playlist!</h1>
             </button>
         </div>
@@ -97,11 +97,21 @@
     import { ref, reactive, watch } from 'vue';
     import axios from 'axios'
 
+    let axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            "Access-Control-Allow-Origin": "*",
+        }
+    };
+
+
+
     //State
     let song_num = ref(10)
     let range = ref('')
     let seed_choice = ref('artists')
     let preview_data = ref()
+
 
     //Methods
     function tops(seed: string, range: string){
@@ -114,10 +124,25 @@
             console.log(error)
         })
     }
+
+    function recommendations(){
+        axios.post('http://localhost:5000/recommendations', {
+        type: seed_choice.value,
+        term: range.value,
+        songs: song_num.value
+    }, axiosConfig)
+        .then((response) =>{
+            console.log(response)
+        })
+        .catch((error) => {
+            console.log(error)
+        })
+    }
     //Debugging
     // watch(range, () => console.log(`${range.value}`) )
     // watch(seed_choice, () => console.log(`${seed_choice.value}`) )
-    watch(preview_data, () => console.log(`${preview_data.value}`))
+    // watch(preview_data, () => console.log(`${preview_data.value}`))
+    // watch(body, () => console.log(`${body}`))
 
     
 </script>
