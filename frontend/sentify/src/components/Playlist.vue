@@ -4,9 +4,9 @@
             <div class="flex justify-center">
                 <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4" type="text" placeholder="You feeling sad, happy...meh? Let me know!"></textarea>
             </div>
-            <div class="mb-8">
+            <div class="my-8">
                 <label class="px-1">Number of songs</label>
-                <input v-model="song_num" type="range" min="0" max="100" class="range range-primary" step="10"/>
+                <input v-model="song_num" type="range" min="10" max="100" class="range range-primary" step="10"/>
             </div>
 
             <!-- Radio buttons for Seed preference -->

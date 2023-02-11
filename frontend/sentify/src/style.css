@@ -22,12 +22,12 @@ h1{
   font-weight: 800;
 }
 
-h2, button{
+h2, button, label, span{
   font-family: "JetBrains Mono", monospace;
   font-weight: 600;
 }
 
-p, label, span, select{
+p, select{
   font-family: "JetBrains Mono", monospace;
   font-weight: 300;
 }
