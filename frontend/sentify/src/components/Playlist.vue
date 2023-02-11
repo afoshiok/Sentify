@@ -35,7 +35,7 @@
                         <option value="medium_term">Medium</option>
                         <option value="long_term">Long</option>
                     </select>
-                    <button @click="tops(seed_choice, range)" class="hover:underline">Preview</button>
+                    <button @click="tops(seed_choice, range)" class="hover:underline decoration-2 underline-offset-4">Preview</button>
                 </div>
                 
             </div> 
