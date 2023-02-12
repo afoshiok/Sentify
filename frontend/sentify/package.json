@@ -13,6 +13,7 @@
     "@fontsource/jetbrains-mono": "^4.5.12",
     "axios": "^1.2.3",
     "daisyui": "^2.47.0",
+    "pinia": "^2.0.30",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6"
   },
