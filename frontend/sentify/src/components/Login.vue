@@ -11,8 +11,10 @@
     import { ref } from 'vue';
     import axios from 'axios'
     import { useLoginStore } from '../stores/loginStore';
+    import { useRouter} from 'vue-router'
 
     const store = useLoginStore()
+    const router = useRouter()
 
     let axiosConfig = {
         headers: {
@@ -28,6 +30,7 @@
             store.$patch({
                 user: response.data.current_user
             })
+            router.push({name: 'Playlist'})
         })
         .catch((error) =>{
             console.log(error)
