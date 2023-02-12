@@ -127,7 +127,8 @@ def login():
     global spot
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
-    return user
+    user_json = {'current_user': user}
+    return user_json
 
 
 
@@ -171,9 +172,11 @@ def tops(choice,term):
 def healthcheck():
     return 'Health - OK'
 
-@app.get("/login", response_class=PlainTextResponse)
+@app.get("/login", response_class=JSONResponse)
 def spotify_login():
-    login()
+    result = login()
+    response_json = jsonable_encoder(result)
+    return JSONResponse(content=response_json)
 @app.post("/recommendations", response_class=PlainTextResponse)
 def recs(body: Recs_Model):
     login()
