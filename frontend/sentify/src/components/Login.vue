@@ -33,6 +33,7 @@
         })
         .catch((error) =>{
             console.log(error)
+            router.push({name: 'Error'})
         })
     }
 

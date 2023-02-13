@@ -2,7 +2,7 @@
     <section class="flex flex-col justify-center align-center min-h-screen">
         <section>
             <div class="flex justify-center">
-                <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4 placeholder-gray-700" type="text" placeholder="You feeling sad, happy...meh? Let me know!"></textarea>
+                <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4 placeholder-gray-600" type="text" placeholder="You feeling sad, happy...meh? Let me know!"></textarea>
             </div>
             <div class="my-8">
                 <label class="px-1">Number of songs</label>

@@ -141,4 +141,4 @@ def tops(choice,term):
 
 
 if __name__ == "__main__":
-    sentiment("I had a really really great day!")
+    login()
