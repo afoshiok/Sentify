@@ -10,7 +10,7 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from spotipy import CacheHandler, MemoryCacheHandler
+from spotipy import MemoryCacheHandler, CacheFileHandler
 
 
 load_dotenv()
@@ -181,7 +181,6 @@ def spotify_login():
     return JSONResponse(content=response_json)
 @app.post("/recommendations", response_class=PlainTextResponse)
 def recs(body: Recs_Model):
-    login()
     recommendations(body.type, body.term, body.songs, body.sentence)
     return f"{body.songs} added to your new playlist"
 
@@ -193,7 +192,6 @@ def sentiment_test(body: sentiment_model):
 
 @app.get("/tops/{seed_type}/{seed_range}", response_class=JSONResponse)
 def get_tops(seed_type,seed_range):
-    login()
     result = tops(seed_type, seed_range)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
