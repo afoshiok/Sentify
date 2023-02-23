@@ -10,6 +10,7 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
+from spotipy import CacheHandler, MemoryCacheHandler
 
 
 load_dotenv()
@@ -122,6 +123,7 @@ def login():
         client_secret=spot_token,
         redirect_uri= redirect,
         scope=scopes,
+        cache_handler=MemoryCacheHandler(token_info=None)
     )
     
     global spot
