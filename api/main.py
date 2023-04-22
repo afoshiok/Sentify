@@ -1,3 +1,5 @@
+import json
+import logging
 from dotenv import load_dotenv
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer #pip install vaderSentiment
 import uvicorn
@@ -10,10 +12,13 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from spotipy import MemoryCacheHandler, CacheFileHandler
+from spotipy import RedisCacheHandler
+import redis
 
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
@@ -37,7 +42,13 @@ class Recs_Model(BaseModel):  #Request body model for /recommendations
 
 class sentiment_model(BaseModel):
     sentence: str
-                        ### Functions ###
+
+
+cache = RedisCacheHandler(redis=redis.Redis(host=os.environ["redis_host"], port=os.environ["redis_port"], db=0, password=os.environ["redis_pass"]))
+
+
+
+### Functions ###
 
 def sentiment(sentence):
     analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
@@ -123,7 +134,7 @@ def login():
         client_secret=spot_token,
         redirect_uri= redirect,
         scope=scopes,
-        cache_handler=MemoryCacheHandler(token_info=None)
+        cache_handler=cache
     )
     
     global spot
@@ -168,7 +179,7 @@ def tops(choice,term):
         return track_json
 
 
-                            ### ENDPOINTS ###
+### ENDPOINTS ###
 
 @app.get("/healthcheck/")
 def healthcheck():
