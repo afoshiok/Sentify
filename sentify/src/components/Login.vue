@@ -1,5 +1,5 @@
 <template>
-    <section class="flex flex-col justify-center items-center align-center min-h-[92vh]" id="login_btn">
+    <section class="flex flex-col justify-center items-center align-center min-h-[92vh] max-h-[92svh]" id="login_btn">
         <p class="pb-6">Your new playlist awaits ;)</p>
         <button class="bg-white rounded-lg h-14 w-28 flex flex-row justify-center items-center outline-4 outline-dashed" @click="user_login()">
             <span class="text-lg">Login</span>
