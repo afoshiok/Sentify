@@ -37,7 +37,6 @@
                     </select>
                     <button @click="tops(seed_choice, range)" class="hover:underline decoration-2 underline-offset-4">Preview</button>
                 </div>
-                
             </div> 
         </section>
 
@@ -116,7 +115,7 @@
 
     //Methods
     function tops(seed: string, range: string){
-        axios.get(`http://localhost:5000/tops/${seed}/${range}`)
+        axios.get(import.meta.env.VITE_API_BASE_URL + `/tops/${seed}/${range}`)
         .then((response) => {
             console.log(response.data)
             preview_data.value = response.data
@@ -127,7 +126,7 @@
     }
 
     function recommendations(){
-        axios.post('http://localhost:5000/recommendations', {
+        axios.post(import.meta.env.VITE_API_BASE_URL + '/recommendations', {
         type: seed_choice.value,
         term: range.value,
         songs: song_num.value,
@@ -135,6 +134,7 @@
     }, axiosConfig)
         .then((response) =>{
             console.log(response)
+            alert('Check Spotify for your new playlist!')
         })
         .catch((error) => {
             console.log(error)

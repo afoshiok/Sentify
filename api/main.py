@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from spotipy import RedisCacheHandler
+from spotipy import RedisCacheHandler, CacheHandler
 import redis
 
 
@@ -43,8 +43,7 @@ class Recs_Model(BaseModel):  #Request body model for /recommendations
 class sentiment_model(BaseModel):
     sentence: str
 
-
-cache = RedisCacheHandler(redis=redis.Redis(host=os.environ["redis_host"], port=os.environ["redis_port"], db=0, password=os.environ["redis_pass"]))
+org_cache = RedisCacheHandler(redis=redis.Redis(host=os.environ["redis_host"], port=os.environ["redis_port"], db=0, password=os.environ["redis_pass"]))
 
 
 
@@ -122,7 +121,7 @@ def recommendations(type,term: str,num_songs: int, sentence: str):
 
         print(playlist['id'])
 
-def login():
+def auth(state):
     spot_client = os.environ["spotify_client_id"]
     spot_token = os.environ["spotify_token"]
     redirect = os.environ["redirect_uri"]
@@ -134,14 +133,19 @@ def login():
         client_secret=spot_token,
         redirect_uri= redirect,
         scope=scopes,
-        cache_handler=cache
+        cache_handler=org_cache
     )
     
     global spot
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.me()['id']
     user_json = {'current_user': user}
-    return user_json
+    if state == 'login':
+            user = spot.me()['id']
+            user_json = {'current_user': user}
+            return user_json
+    elif state == 'logout':
+        auth_manager.cache_handler.clear()
 
 
 
@@ -185,9 +189,9 @@ def tops(choice,term):
 def healthcheck():
     return 'Health - OK'
 
-@app.get("/login", response_class=JSONResponse)
-def spotify_login():
-    result = login()
+@app.get("/auth/{state}", response_class=JSONResponse)
+def spotify_auth(state):
+    result = auth(state)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
 @app.post("/recommendations", response_class=PlainTextResponse)
@@ -206,6 +210,8 @@ def get_tops(seed_type,seed_range):
     result = tops(seed_type, seed_range)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
+
+
 
 
 if __name__ == "__main__":
