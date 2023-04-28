@@ -23,7 +23,7 @@
     };
 
     function user_login(){
-        axios.get(`http://localhost:5000/auth`)
+        axios.get(`http://localhost:5000/auth/login`)
         .then((response) => {
             console.log(response.data)
             store.$patch({

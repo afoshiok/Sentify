@@ -12,7 +12,7 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from spotipy import RedisCacheHandler, CacheHandler
+from spotipy import CacheHandler, RedisCacheHandler
 import redis
 
 
@@ -43,7 +43,6 @@ class Recs_Model(BaseModel):  #Request body model for /recommendations
 class sentiment_model(BaseModel):
     sentence: str
 
-org_cache = RedisCacheHandler(redis=redis.Redis(host=os.environ["redis_host"], port=os.environ["redis_port"], db=0, password=os.environ["redis_pass"]))
 
 
 
@@ -133,7 +132,7 @@ def auth(state):
         client_secret=spot_token,
         redirect_uri= redirect,
         scope=scopes,
-        cache_handler=org_cache
+        cache_handler=RedisCacheHandler(redis=redis.Redis(host=os.environ["redis_host"],port=os.environ["redis_port"], db=0,password=os.environ["redis_pass"]))
     )
     
     global spot
