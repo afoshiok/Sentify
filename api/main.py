@@ -123,7 +123,6 @@ def recommendations(type,term: str,num_songs: int, sentence: str):
         playlist = spot.user_playlist_create(
             user = current_user ,
             name = "Sentify Playlist",
-            public = False,
             description = f"Your sentiment score was: {sentiment_score}" )
 
         spot.playlist_add_items(
@@ -131,18 +130,18 @@ def recommendations(type,term: str,num_songs: int, sentence: str):
             items = list(tracks.values())
             )
         
-        # playlist_tracks = spot.playlist_items(playlist_id=playlist['id'])
-        # tracks= []
-        # for track['track'] in playlist_tracks['items']:
-        #     track_dict = {}
-        #     track_dict['Name'] = track['name']
-        #     artists_list = [] #There can be more than one artist on a track
-        #     for artist in track['artists']:
-        #         artists_list.append(artist['name'])
-        #     track_dict['Artists'] = artists_list
-        #     track_dict['Cover'] = track['album']['images'][0]
-        #     track_dict['Popularity'] = track['popularity']
-        #     tracks.append(track_dict)
+        playlist_tracks = spot.playlist_items(playlist_id=playlist['id'])
+        tracks= []
+        for track['track'] in playlist_tracks['items']:
+            track_dict = {}
+            track_dict['Name'] = track['name']
+            artists_list = [] #There can be more than one artist on a track
+            for artist in track['artists']:
+                artists_list.append(artist['name'])
+            track_dict['Artists'] = artists_list
+            track_dict['Cover'] = track['album']['images'][0]
+            track_dict['Popularity'] = track['popularity']
+            tracks.append(track_dict)
 
         print(playlist['id'])
         return [f"https://open.spotify.com/playlist/{playlist['id']}", tracks]
