@@ -95,6 +95,9 @@
 <script setup lang="ts">
     import { ref, reactive, watch } from 'vue';
     import axios from 'axios'
+    import { useResultStore } from '../stores/loginStore';
+    import { useRouter }from 'vue-router'
+    const router = useRouter()
 
     let axiosConfig = {
         headers: {
@@ -111,6 +114,7 @@
     let seed_choice = ref('artists')
     let preview_data = ref()
     let textbox = ref('')
+    const resultStore = useResultStore()
 
 
     //Methods
@@ -131,10 +135,11 @@
         term: range.value,
         songs: song_num.value,
         sentence: textbox.value
-    }, axiosConfig)
+        }, axiosConfig)
         .then((response) =>{
             console.log(response)
-            alert('Check Spotify for your new playlist!')
+            resultStore.$patch({result: response.data})
+            router.push({name: 'Result'})
         })
         .catch((error) => {
             console.log(error)

@@ -6,3 +6,8 @@ export const useLoginStore = defineStore('login', () => {
 
     return {user}
 })
+
+export const useResultStore = defineStore('result', () => {
+    const result = ref([])
+    return {result}
+} )
