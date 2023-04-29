@@ -86,8 +86,21 @@ def recommendations(type,term: str,num_songs: int, sentence: str):
             ) 
 
         spot.playlist_change_details(playlist_id = playlist['id'], public = False )
+        playlist_tracks = spot.playlist_items(playlist_id=playlist['id'])
+        tracks= []
+        for track['track'] in playlist_tracks['items']:
+            track_dict = {}
+            track_dict['Name'] = track['name']
+            artists_list = [] #There can be more than one artist on a track
+            for artist in track['artists']:
+                artists_list.append(artist['name'])
+            track_dict['Artists'] = artists_list
+            track_dict['Cover'] = track['album']['images'][0]
+            track_dict['Popularity'] = track['popularity']
+            tracks.append(track_dict)
         print(playlist['id'])
-        # print(song_recs)
+
+        return [f"https://open.spotify.com/playlist/{playlist['id']}", tracks]
         # print(artist_dict)
         # print(tracks)
     elif type == "tracks":
@@ -116,15 +129,29 @@ def recommendations(type,term: str,num_songs: int, sentence: str):
         spot.playlist_add_items(
             playlist_id= playlist['id'], 
             items = list(tracks.values())
-            ) 
+            )
+        
+        # playlist_tracks = spot.playlist_items(playlist_id=playlist['id'])
+        # tracks= []
+        # for track['track'] in playlist_tracks['items']:
+        #     track_dict = {}
+        #     track_dict['Name'] = track['name']
+        #     artists_list = [] #There can be more than one artist on a track
+        #     for artist in track['artists']:
+        #         artists_list.append(artist['name'])
+        #     track_dict['Artists'] = artists_list
+        #     track_dict['Cover'] = track['album']['images'][0]
+        #     track_dict['Popularity'] = track['popularity']
+        #     tracks.append(track_dict)
 
         print(playlist['id'])
+        return [f"https://open.spotify.com/playlist/{playlist['id']}", tracks]
 
 def auth(state):
     spot_client = os.environ["spotify_client_id"]
     spot_token = os.environ["spotify_token"]
     redirect = os.environ["redirect_uri"]
-    scopes = "user-top-read,playlist-read-private,user-top-read, playlist-modify-public"
+    scopes = "playlist-read-private,user-top-read, playlist-modify-public"
         
     
     auth_manager = SpotifyOAuth(
@@ -194,10 +221,16 @@ def spotify_auth(state):
     result = auth(state)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
-@app.post("/recommendations", response_class=PlainTextResponse)
+@app.post("/recommendations", response_class=JSONResponse)
 def recs(body: Recs_Model):
-    recommendations(body.type, body.term, body.songs, body.sentence)
-    return f"{body.songs} added to your new playlist"
+    result=recommendations(body.type, body.term, body.songs, body.sentence)
+    tracks= result[1]
+    repsonse = {
+        'links':result[0],
+        'tracks': [tracks]
+        }
+    response_json = jsonable_encoder(repsonse)
+    return JSONResponse(content=response_json)
 
 @app.post("/sentiment", response_class=JSONResponse)
 def sentiment_test(body: sentiment_model):

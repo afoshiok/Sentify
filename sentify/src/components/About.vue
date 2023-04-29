@@ -11,7 +11,7 @@
         <p>A seed is what Spotify's recommendation API endpoint will base your playlist recommendations on. Sentify gives you the option to base you playlist on either your top five tracks or artists. </p>
     </section>
     <section class="mt-4 mx-4">
-        <h1 class="mb-2">Time Ranges</h1>
+        <h1 class="mb-1">Time Ranges</h1>
         <p>Short Term: Range of 4 weeks. </p>
         <p>Medium Term: Range of 6 months. </p>
         <p>Long Term: Range of several years. </p>
