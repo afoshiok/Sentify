@@ -9,7 +9,7 @@
 </template>
 <script lang="ts" setup>
     import axios from 'axios'
-    import { useLoginStore } from '../stores/loginStore';
+    import { useLoginStore } from '../stores/Stores';
     import { useRouter} from 'vue-router'
 
     const store = useLoginStore()

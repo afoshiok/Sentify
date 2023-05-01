@@ -89,13 +89,21 @@
                 <h1 class="text-md">Generate a {{song_num}} song playlist!</h1>
             </button>
         </div>
+
+        <div v-if="rangeSelect === false && (range.valueOf() === '') " class="alert alert-warning bg-red-600 text-white mt-4">
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current flex-shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                <span>Caution: Choose a time range for your seeds!</span>
+            </div>
+        </div>
+        <div v-else></div>
     </section>
 </template>
 
 <script setup lang="ts">
     import { ref, reactive, watch } from 'vue';
     import axios from 'axios'
-    import { useResultStore } from '../stores/loginStore';
+    import { useResultStore } from '../stores/Stores';
     import { useRouter }from 'vue-router'
     const router = useRouter()
 
@@ -115,6 +123,7 @@
     let preview_data = ref()
     let textbox = ref('')
     const resultStore = useResultStore()
+    let rangeSelect = ref(true)
 
 
     //Methods
@@ -130,24 +139,29 @@
     }
 
     function recommendations(){
-        axios.post(import.meta.env.VITE_API_BASE_URL + '/recommendations', {
-        type: seed_choice.value,
-        term: range.value,
-        songs: song_num.value,
-        sentence: textbox.value
-        }, axiosConfig)
-        .then((response) =>{
-            return response
-        })
-        .then((response) => {
-            resultStore.$patch({result: response.data})
-        })
-        .then(() => {
-            router.push({name: 'Result'})
-        })
-        .catch((error) => {
-            console.log(error)
-        })
+        if (range.value == '') {
+            rangeSelect.value = false
+        }
+        else {
+            axios.post(import.meta.env.VITE_API_BASE_URL + '/recommendations', {
+            type: seed_choice.value,
+            term: range.value,
+            songs: song_num.value,
+            sentence: textbox.value
+            }, axiosConfig)
+            .then((response) =>{
+                return response
+            })
+            .then((response) => {
+                resultStore.$patch({result: response.data})
+            })
+            .then(() => {
+                router.push({name: 'Result'})
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+        }
     }
 
     //Debugging
