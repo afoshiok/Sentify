@@ -137,8 +137,12 @@
         sentence: textbox.value
         }, axiosConfig)
         .then((response) =>{
-            console.log(response)
+            return response
+        })
+        .then((response) => {
             resultStore.$patch({result: response.data})
+        })
+        .then(() => {
             router.push({name: 'Result'})
         })
         .catch((error) => {
