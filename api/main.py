@@ -1,11 +1,9 @@
-import json
 import logging
 from dotenv import load_dotenv
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer #pip install vaderSentiment
 import uvicorn
 import os
-from fastapi import FastAPI
-from fastapi.responses import PlainTextResponse
+from fastapi import FastAPI, Depends, Request
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from pydantic import BaseModel
@@ -13,7 +11,8 @@ from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from spotipy import CacheHandler, RedisCacheHandler,MemoryCacheHandler
-import redis
+
+from fastapi_sessions.frontends.implementations import SessionCookie #pip install fastapi-sessions
 
 
 load_dotenv()
@@ -43,8 +42,11 @@ class Recs_Model(BaseModel):  #Request body model for /recommendations
 class sentiment_model(BaseModel):
     sentence: str
 
+class SessionData(BaseModel):
+    token: object
 
-
+class FastAPICacheHandler(CacheHandler):
+    
 
 ### Functions ###
 
@@ -212,16 +214,16 @@ def tops(choice,term):
 ### ENDPOINTS ###
 
 @app.get("/healthcheck/")
-def healthcheck():
+async def healthcheck():
     return 'Health - OK'
 
 @app.get("/auth/{state}", response_class=JSONResponse)
-def spotify_auth(state):
+async def spotify_auth(state):
     result = auth(state)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
 @app.post("/recommendations", response_class=JSONResponse)
-def recs(body: Recs_Model):
+async def recs(body: Recs_Model):
     result=recommendations(body.type, body.term, body.songs, body.sentence)
     tracks= result[1]
     repsonse = {
@@ -232,13 +234,13 @@ def recs(body: Recs_Model):
     return JSONResponse(content=response_json)
 
 @app.post("/sentiment", response_class=JSONResponse)
-def sentiment_test(body: sentiment_model):
+async def sentiment_test(body: sentiment_model):
     result = sentiment(body.sentence)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
 
 @app.get("/tops/{seed_type}/{seed_range}", response_class=JSONResponse)
-def get_tops(seed_type,seed_range):
+async def get_tops(seed_type,seed_range):
     result = tops(seed_type, seed_range)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
