@@ -45,12 +45,12 @@ class sentiment_model(BaseModel):
 class SessionData(BaseModel):
     token: object
 
-class FastAPICacheHandler(CacheHandler):
+
     
 
 ### Functions ###
 
-def sentiment(sentence):
+def sentiment(sentence):   # noqa: E999
     analyzer = SentimentIntensityAnalyzer() #Instance of VADER's polarity analyzer
     target: str = sentence #The sentence being tested.
     sentiment_scores = analyzer.polarity_scores(target)
@@ -228,7 +228,7 @@ async def recs(body: Recs_Model):
     tracks= result[1]
     repsonse = {
         'links':result[0],
-        'tracks': [tracks]
+        'tracks': tracks
         }
     response_json = jsonable_encoder(repsonse)
     return JSONResponse(content=response_json)

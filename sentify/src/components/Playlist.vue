@@ -152,13 +152,14 @@
             .then((response) =>{
                 return response
             })
-            .then((response) => {
-                resultStore.$patch({result: response.data})
-            })
+            // .then((response) => {
+            //     resultStore.$patch({result: response.data})
+            // })
             .then(() => {
                 router.push({name: 'Result'})
             })
             .catch((error) => {
+                router.push({name: 'Error'})
                 console.log(error)
             })
         }

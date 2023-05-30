@@ -9,5 +9,6 @@ export const useLoginStore = defineStore('login', () => {
 
 export const useResultStore = defineStore('result', () => {
     const result = ref([])
+
     return {result}
 } )
