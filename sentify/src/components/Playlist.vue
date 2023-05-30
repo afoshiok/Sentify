@@ -150,12 +150,13 @@
             sentence: textbox.value
             }, axiosConfig)
             .then((response) =>{
-                return response
+                console.log(response.data)
+                // return response
             })
             // .then((response) => {
             //     resultStore.$patch({result: response.data})
             // })
-            .then(() => {
+            .finally(() => {
                 router.push({name: 'Result'})
             })
             .catch((error) => {
