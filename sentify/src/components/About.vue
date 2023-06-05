@@ -16,9 +16,9 @@
     </section>
     <section class="mt-4 mx-4">
         <h1 class="mb-1">Time Ranges</h1>
-        <p>Short Term: Range of 4 weeks. (Personally, I've got the best playlists with this time range.) </p>
-        <p>Medium Term: Range of 6 months. </p>
-        <p>Long Term: Range of several years. </p>
+        <p><a class="underline underline-offset-4">Short Term:</a> Range of 4 weeks. (Personally, I've got the best playlists with this time range.) </p>
+        <p><a class="underline underline-offset-4">Medium Term:</a> Range of 6 months. </p>
+        <p><a class="underline underline-offset-4">Long Term:</a> Range of several years. </p>
     </section>
     <section class="container mx-auto max-w-6xl flex justify-center mt-4">
         <h1 class="mb-1">Created by</h1>

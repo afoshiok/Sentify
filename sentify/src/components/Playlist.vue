@@ -2,17 +2,17 @@
     <section class="flex flex-col justify-center align-center min-h-screen">
         <section>
             <div class="flex justify-center">
-                <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4 placeholder-gray-600" type="text" placeholder="You feeling sad, happy...meh? Let me know! Or just leave it blank for a random playlist."></textarea>
+                <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4 placeholder-gray-600 max-[480px]:w-5/6 p-4 mt-4 text-sm" type="text" placeholder="You feeling sad, happy...meh? Let me know! Or just leave it blank for a random playlist."></textarea>
             </div>
-            <div class="my-8">
+            <div class="my-8 max-[480px]:mx-8">
                 <label class="px-1">Number of songs</label>
                 <input v-model="song_num" type="range" min="10" max="100" class="range range-primary" step="10"/>
             </div>
 
             <!-- Radio buttons for Seed preference -->
-            <h1 class="text-xl mb-2">Seeds</h1>
+            <h1 class="text-xl mb-2 max-[480px]: mx-4">Seeds</h1>
             <div class="grid grid-cols-2">
-                <div class="pr-8">
+                <div class="pr-8 max-[480px]: mx-4">
                     <div class="form-control">
                         <label class="label cursor-pointer">
                         <span class="label-text">Artist</span> 
@@ -29,8 +29,8 @@
 
                 <!-- Select for Seed time range -->
                 <div class="flex flex-col justify-center items-center">
-                    <select v-model="range" class="bg-white select select-bordered w-3/4 max-w-xs">
-                        <option value="" disabled selected>Choose time range for seeds</option>
+                    <select v-model="range" class="bg-white select select-bordered w-3/4 max-w-xs max-[480px]:w-5/6 text-xs">
+                        <option value="" disabled selected>Choose time range</option>
                         <option value="short_term">Short</option>
                         <option value="medium_term">Medium</option>
                         <option value="long_term">Long</option>
