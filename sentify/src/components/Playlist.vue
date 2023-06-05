@@ -44,7 +44,7 @@
         <div v-if="!!preview_data" class="py-4 flex justify-center">
             <h1>Your top: {{ seed_choice }}</h1>
         </div>
-        <ul v-if="!!preview_data && seed_choice == 'artists'" class="flex flex-row pt-8 overflow-x-scroll scrollbar scrollbar-thumb-primary">
+        <ul v-if="!!preview_data && seed_choice == 'artists'" class="flex flex-row pt-8 overflow-x-scroll scrollbar scrollbar-thumb-primary" id="seedCard">
             <li v-for="(item,index) in preview_data" class="px-2 pb-6">
                 <div class="border-4 border-black card w-72 bg-base-100">
                     <figure class="px-4 pt-6">
@@ -63,7 +63,7 @@
         <div v-else></div>
 
         <!-- Renders preview of tracks seeds -->
-        <ul v-if="!!preview_data && seed_choice == 'tracks'" class="flex flex-row pt-10 overflow-x-scroll scrollbar scrollbar-thumb-primary" >
+        <ul v-if="!!preview_data && seed_choice == 'tracks'" class="flex flex-row pt-10 overflow-x-scroll scrollbar scrollbar-thumb-primary animation-marquee">
             <li v-for="(item,index) in preview_data" class="px-2 pb-6">
                 <div class="border-4 border-black card w-72 bg-base-100">
                     <figure class="px-4 pt-6">
@@ -99,6 +99,13 @@
         <div v-else></div>
     </section>
 </template>
+
+<style scoped>
+@keyframes li{
+            0%{transform: translateX(100%);}
+            100%{transform: translateX(-100%);}
+        }
+</style>
 
 <script setup lang="ts">
     import { ref, reactive, watch } from 'vue';
@@ -150,12 +157,10 @@
             sentence: textbox.value
             }, axiosConfig)
             .then((response) =>{
+                resultStore.$patch({result: response.data.link})
                 console.log(response.data)
                 // return response
             })
-            // .then((response) => {
-            //     resultStore.$patch({result: response.data})
-            // })
             .finally(() => {
                 router.push({name: 'Result'})
             })

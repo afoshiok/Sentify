@@ -132,21 +132,21 @@ def recommendations(type,term: str,num_songs: int, sentence: str):
             items = list(tracks.values())
             )
         
-        playlist_tracks = spot.playlist_items(playlist_id=playlist['id'])
-        tracks= []
-        for track['track'] in playlist_tracks['items']:
-            track_dict = {}
-            track_dict['Name'] = track['name']
-            artists_list = [] #There can be more than one artist on a track
-            for artist in track['artists']:
-                artists_list.append(artist['name'])
-            track_dict['Artists'] = artists_list
-            track_dict['Cover'] = track['album']['images'][0]
-            track_dict['Popularity'] = track['popularity']
-            tracks.append(track_dict)
+        # playlist_tracks = spot.playlist_items(playlist_id=playlist['id'])
+        # tracks= []
+        # for track['track'] in playlist_tracks['items']:
+        #     track_dict = {}
+        #     track_dict['Name'] = track['name']
+        #     artists_list = [] #There can be more than one artist on a track
+        #     for artist in track['artists']:
+        #         artists_list.append(artist['name'])
+        #     track_dict['Artists'] = artists_list
+        #     track_dict['Cover'] = track['album']['images'][0]
+        #     track_dict['Popularity'] = track['popularity']
+        #     tracks.append(track_dict)
 
         print(playlist['id'])
-        return [f"https://open.spotify.com/playlist/{playlist['id']}", tracks]
+        return [f"https://open.spotify.com/playlist/{playlist['id']}"]
 
 def auth(state):
     spot_client = os.environ["spotify_client_id"]
@@ -174,9 +174,6 @@ def auth(state):
             return user_json
     elif state == 'logout':
         auth_manager.cache_handler.clear()
-
-
-
 
 def tops(choice,term):
     if choice == 'artists':
@@ -222,13 +219,12 @@ async def spotify_auth(state):
     result = auth(state)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
+
 @app.post("/recommendations", response_class=JSONResponse)
 async def recs(body: Recs_Model):
     result=recommendations(body.type, body.term, body.songs, body.sentence)
-    tracks= result[1]
     repsonse = {
-        'links':result[0],
-        'tracks': tracks
+        'link':result[0]
         }
     response_json = jsonable_encoder(repsonse)
     return JSONResponse(content=response_json)
