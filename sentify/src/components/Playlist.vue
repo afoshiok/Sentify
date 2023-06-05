@@ -2,7 +2,7 @@
     <section class="flex flex-col justify-center align-center min-h-screen">
         <section>
             <div class="flex justify-center">
-                <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4 placeholder-gray-600 max-[480px]:w-5/6 p-4 mt-4 text-sm" type="text" placeholder="You feeling sad, happy...meh? Let me know! Or just leave it blank for a random playlist."></textarea>
+                <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4 placeholder-gray-600 max-[480px]:w-5/6 max-[480px]:p-4 mt-4 text-sm" type="text" placeholder="You feeling sad, happy...meh? Let me know! Or just leave it blank for a random playlist."></textarea>
             </div>
             <div class="my-8 max-[480px]:mx-8">
                 <label class="px-1">Number of songs</label>
@@ -13,7 +13,7 @@
             <h1 class="text-xl mb-2 max-[480px]: mx-4">Seeds</h1>
             <div class="grid grid-cols-2">
                 <div class="pr-8 max-[480px]: mx-4">
-                    <div class="form-control">
+                    <div class="form-control" aria-label="Form to select your seed type.">
                         <label class="label cursor-pointer">
                         <span class="label-text">Artist</span> 
                         <input v-model="seed_choice" type="radio" name="Seed-Option" value="artists" class="radio checked:bg-black" checked/>
@@ -29,7 +29,7 @@
 
                 <!-- Select for Seed time range -->
                 <div class="flex flex-col justify-center items-center">
-                    <select v-model="range" class="bg-white select select-bordered w-3/4 max-w-xs max-[480px]:w-5/6 text-xs">
+                    <select v-model="range" class="bg-white select select-bordered w-3/4 max-w-xs max-[480px]:w-5/6 max-[480px]:text-[.63rem]">
                         <option value="" disabled selected>Choose time range</option>
                         <option value="short_term">Short</option>
                         <option value="medium_term">Medium</option>
