@@ -2,7 +2,7 @@
     <section class="flex flex-col justify-center align-center min-h-screen">
         <section>
             <div class="flex justify-center">
-                <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4 placeholder-gray-600" type="text" placeholder="You feeling sad, happy...meh? Let me know!"></textarea>
+                <textarea v-model="textbox" class="border-4 border-black px-2 pt-1 m-2 rounded-md w-3/4 placeholder-gray-600" type="text" placeholder="You feeling sad, happy...meh? Let me know! Or just leave it blank for a random playlist."></textarea>
             </div>
             <div class="my-8">
                 <label class="px-1">Number of songs</label>
@@ -63,7 +63,7 @@
         <div v-else></div>
 
         <!-- Renders preview of tracks seeds -->
-        <ul v-if="!!preview_data && seed_choice == 'tracks'" class="flex flex-row pt-10 overflow-x-scroll scrollbar scrollbar-thumb-primary animation-marquee">
+        <ul v-if="!!preview_data && seed_choice == 'tracks'" class="flex flex-row pt-10 overflow-x-scroll scrollbar scrollbar-thumb-primary">
             <li v-for="(item,index) in preview_data" class="px-2 pb-6">
                 <div class="border-4 border-black card w-72 bg-base-100">
                     <figure class="px-4 pt-6">
