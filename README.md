@@ -29,3 +29,29 @@
 
 
 - **Libraries/Frameworks:** Vue, Tailwind, Daisy UI, Axios
+
+## Running the application
+
+Before you do anything the terminal, you need to set up two .env, one in the root directory of the `/api` and one in the root directory of the `/sentify` .
+
+```.env
+# .env in /api directory
+spotify_client_id = "Spotify client id from Spotify Developer Poratal"
+spotify_token = "Spotify token from Spotify Developer Poratal"
+redirect_uri = "http://desired_redirect_uri" #You determine this in the Spotify Developer Poratal
+PORT = 5000 #Or any port you want to run your API on.
+```
+
+```.env
+#.env in /sentify directory
+PORT = 3000 #Or any port you want to run your frontend on.
+VITE_API_BASE_URL = "http://api_url"
+```
+
+Now you will install you dependencies in both the `/api` and `/sentify` directories.
+
+For `/sentify`:
+```cmd
+cd sentify
+npm install
+```
