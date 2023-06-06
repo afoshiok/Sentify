@@ -10,22 +10,22 @@
 
 **Backend:**
 - **Language(s):**
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=py" />
-  </a>
-</p>
+    <p align="left">
+      <a href="https://skillicons.dev">
+        <img src="https://skillicons.dev/icons?i=py" />
+      </a>
+    </p>
 
 
 - **Libraries/Frameworks:** Vader Sentiment Analysis, FastAPI (Also tried using Flask for REST API creation)
 
 **Frontend:**
 - **Language(s):**
-<p align="center">
-  <a href="https://skillicons.dev">
-    <img src="https://skillicons.dev/icons?i=ts,js,html,css" />
-  </a>
-</p>
+    <p align="left">
+      <a href="https://skillicons.dev">
+        <img src="https://skillicons.dev/icons?i=ts,js,html,css" />
+      </a>
+    </p>
 
 
 - **Libraries/Frameworks:** Vue, Tailwind, Daisy UI, Axios
