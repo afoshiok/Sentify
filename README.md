@@ -36,9 +36,9 @@ Before you do anything the terminal, you need to set up two .env, one in the roo
 
 ```.env
 # .env in /api directory
-spotify_client_id = "Spotify client id from Spotify Developer Poratal"
-spotify_token = "Spotify token from Spotify Developer Poratal"
-redirect_uri = "http://desired_redirect_uri" #You determine this in the Spotify Developer Poratal
+spotify_client_id = "Spotify client id from Spotify Developer Dashboard"
+spotify_token = "Spotify token from Spotify Developer Dashboard"
+redirect_uri = "http://desired_redirect_uri" #You determine this in the Spotify Developer Dashboard
 PORT = 5000 #Or any port you want to run your API on.
 ```
 
@@ -50,8 +50,30 @@ VITE_API_BASE_URL = "http://api_url"
 
 Now you will install you dependencies in both the `/api` and `/sentify` directories.
 
-For `/sentify`:
+For `/sentify` you must have [Node](https://nodejs.org/en) installed:
 ```cmd
 cd sentify
 npm install
 ```
+
+For `/api` you need to install a Python dependency package called [Poetry](https://python-poetry.org/) which can be installed though pip or pipx:
+```cmd
+pip install install poetry
+```
+Now that Poetry is installed, let's install the API dependencies:
+```cmd
+cd api
+poetry install
+```
+
+Okay...NOW let's run the app. Start with running the api:
+```cmd
+cd api
+poetry run main
+```
+and run the frontend:
+```cmd
+cd sentify
+npm run dev
+```
+Your application will be reunning on http://localhost:3000 (or what ever port you chose for the frontend .env variable).
