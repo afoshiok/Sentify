@@ -110,7 +110,7 @@
 <script setup lang="ts">
     import { ref, reactive, watch } from 'vue';
     import axios from 'axios'
-    import { useResultStore } from '../stores/Stores';
+    import { useLinkStore, useResultStore } from '../stores/Stores';
     import { useRouter }from 'vue-router'
     const router = useRouter()
 
@@ -129,6 +129,7 @@
     let seed_choice = ref('artists')
     let preview_data = ref()
     let textbox = ref('')
+    const linkStore = useLinkStore()
     const resultStore = useResultStore()
     let rangeSelect = ref(true)
 
@@ -157,7 +158,13 @@
             sentence: textbox.value
             }, axiosConfig)
             .then((response) =>{
-                resultStore.$patch({result: response.data.link})
+                linkStore.$patch({link: response.data.link})
+                resultStore.$patch({
+                    neg:response.data.polarity.neg,
+                    pos: response.data.polarity.pos,
+                    neu: response.data.polarity.neu,
+                    comp: response.data.polarity.compound
+                })
                 console.log(response.data)
                 // return response
             })

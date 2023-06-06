@@ -7,8 +7,17 @@ export const useLoginStore = defineStore('login', () => {
     return {user}
 })
 
-export const useResultStore = defineStore('result', () => {
-    const result = ref('')
+export const useLinkStore = defineStore('link', () => {
+    const link = ref('')
 
-    return {result}
+    return {link}
+} )
+
+export const useResultStore = defineStore('result', () => {
+    const neg = ref(0)
+    const pos = ref(0)
+    const neu = ref(0)
+    const comp = ref(0)
+
+    return {neg, pos, neu, comp}
 } )

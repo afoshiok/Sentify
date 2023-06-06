@@ -87,22 +87,21 @@ def recommendations(type,term: str,num_songs: int, sentence: str):
             items = list(tracks.values())
             ) 
 
-        spot.playlist_change_details(playlist_id = playlist['id'], public = False )
-        playlist_tracks = spot.playlist_items(playlist_id=playlist['id'])
-        tracks= []
-        for track['track'] in playlist_tracks['items']:
-            track_dict = {}
-            track_dict['Name'] = track['name']
-            artists_list = [] #There can be more than one artist on a track
-            for artist in track['artists']:
-                artists_list.append(artist['name'])
-            track_dict['Artists'] = artists_list
-            track_dict['Cover'] = track['album']['images'][0]
-            track_dict['Popularity'] = track['popularity']
-            tracks.append(track_dict)
-        print(playlist['id'])
+        # playlist_tracks = spot.playlist_items(playlist_id=playlist['id'])
+        # tracks= []
+        # for track['track'] in playlist_tracks['items']:
+        #     track_dict = {}
+        #     track_dict['Name'] = track['name']
+        #     artists_list = [] #There can be more than one artist on a track
+        #     for artist in track['artists']:
+        #         artists_list.append(artist['name'])
+        #     track_dict['Artists'] = artists_list
+        #     track_dict['Cover'] = track['album']['images'][0]
+        #     track_dict['Popularity'] = track['popularity']
+        #     tracks.append(track_dict)
+        # print(playlist['id'])
 
-        return [f"https://open.spotify.com/playlist/{playlist['id']}", tracks]
+        return [f"https://open.spotify.com/playlist/{playlist['id']}", sentiment_score]
         # print(artist_dict)
         # print(tracks)
     elif type == "tracks":
@@ -146,7 +145,7 @@ def recommendations(type,term: str,num_songs: int, sentence: str):
         #     tracks.append(track_dict)
 
         print(playlist['id'])
-        return [f"https://open.spotify.com/playlist/{playlist['id']}"]
+        return [f"https://open.spotify.com/playlist/{playlist['id']}", sentiment_score]
 
 def auth(state):
     spot_client = os.environ["spotify_client_id"]
@@ -224,7 +223,8 @@ async def spotify_auth(state):
 async def recs(body: Recs_Model):
     result=recommendations(body.type, body.term, body.songs, body.sentence)
     repsonse = {
-        'link':result[0]
+        'link':result[0],
+        'polarity':result[1]
         }
     response_json = jsonable_encoder(repsonse)
     return JSONResponse(content=response_json)
