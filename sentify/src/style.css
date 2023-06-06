@@ -6,6 +6,9 @@
 }
 
 
+html {
+  font-family: "JetBrains Mono", monospace;
+}
 
 header{
   font-family: "JetBrains Mono", monospace;
