@@ -12,7 +12,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from spotipy import CacheHandler, RedisCacheHandler,MemoryCacheHandler
 
-from fastapi_sessions.frontends.implementations import SessionCookie #pip install fastapi-sessions
+# from fastapi_sessions.frontends.implementations import SessionCookie #pip install fastapi-sessions
 
 
 load_dotenv()

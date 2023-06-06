@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "api"
+version = "0.1.0"
+description = ""
+authors = ["Favour Oshiokhale <89757138+afoshiok@users.noreply.github.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+spotipy = "^2.23.0"
+python-dotenv = "^1.0.0"
+uvicorn = {extras = ["standard"], version = "^0.22.0"}
+fastapi = {extras = ["all"], version = "^0.96.0"}
+
+[tool.poetry.group.dev.dependencies]
+vaderSentiment = "^3.3.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
