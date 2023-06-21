@@ -147,13 +147,16 @@ def auth(state):
     )
     
     if state == 'login':
-        global spot
-        spot = spotipy.Spotify(auth_manager=auth_manager)
-        user = spot.me()['id']
-        user_json = {'current_user': user}
-        user = spot.me()['id']
-        user_json = {'current_user': user}
-        return user_json
+        try:
+            global spot
+            spot = spotipy.Spotify(auth_manager=auth_manager)
+            user = spot.me()['id']
+            user_json = {'current_user': user}
+            user = spot.me()['id']
+            user_json = {'current_user': user}
+            return user_json
+        except EOFError as e:
+            return e
     elif state == 'logout':
         auth_manager.cache_handler.clear()
 
