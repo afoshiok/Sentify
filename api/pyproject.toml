@@ -11,6 +11,7 @@ spotipy = "^2.23.0"
 python-dotenv = "^1.0.0"
 uvicorn = {extras = ["standard"], version = "^0.22.0"}
 fastapi = {extras = ["all"], version = "^0.96.0"}
+vadersentiment = "^3.3.2"
 
 [tool.poetry.group.dev.dependencies]
 vaderSentiment = "^3.3.2"
