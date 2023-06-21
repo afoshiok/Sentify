@@ -146,14 +146,14 @@ def auth(state):
         cache_handler=MemoryCacheHandler()
     )
     
-    global spot
-    spot = spotipy.Spotify(auth_manager=auth_manager)
-    user = spot.me()['id']
-    user_json = {'current_user': user}
     if state == 'login':
-            user = spot.me()['id']
-            user_json = {'current_user': user}
-            return user_json
+        global spot
+        spot = spotipy.Spotify(auth_manager=auth_manager)
+        user = spot.me()['id']
+        user_json = {'current_user': user}
+        user = spot.me()['id']
+        user_json = {'current_user': user}
+        return user_json
     elif state == 'logout':
         auth_manager.cache_handler.clear()
 
