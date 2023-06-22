@@ -1,11 +1,10 @@
 import logging
-from urllib import request
 from dotenv import load_dotenv
 # import requests
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import uvicorn
 import os
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from pydantic import BaseModel
@@ -149,23 +148,25 @@ def auth(state):
     )
     
     if state == 'login':
-        # spot = spotipy.Spotify(auth_manager=auth_manager)
-        # user = spot.me()['id']
-        # user_json = {'current_user': user}
-        # user = spot.me()['id']
-        # user_json = {'current_user': user}
-        # return user_json
-        auth_url = auth_manager.get_authorize_url()
-        return {"auth_url": auth_url}
+        global spot
+        spot = spotipy.Spotify(auth_manager=auth_manager)
+        user = spot.me()['id']
+        user_json = {'current_user': user}
+        user = spot.me()['id']
+        user_json = {'current_user': user}
+        return user_json
+        # auth_url = auth_manager.get_authorize_url()
+        # return {"auth_url": auth_url}
     
     elif state == 'callback':
-        global spot
-        auth_code = request.GET.get('code')
-        print(auth_code)
-        auth_manager.get_access_token(auth_code)
-        spot = spotipy.Spotify(auth_manager=auth_manager)
-        user = spot.current_user()['id']
-        return {'current_user': user}
+        # global spot
+        # auth_code = request.GET.get('code')
+        # print(auth_code)
+        # auth_manager.get_access_token(auth_code)
+        # spot = spotipy.Spotify(auth_manager=auth_manager)
+        # user = spot.current_user()['id']
+        # return {'current_user': user}
+        return {"message": "Please use the correct callback endpoint"}
 
     elif state == 'logout':
         auth_manager.cache_handler.clear()
