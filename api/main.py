@@ -1,6 +1,6 @@
 import logging
 from dotenv import load_dotenv
-# import requests
+import requests
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import uvicorn
 import os
@@ -149,14 +149,14 @@ def auth(state):
     
     if state == 'login':
         global spot
-        spot = spotipy.Spotify(auth_manager=auth_manager)
-        user = spot.me()['id']
-        user_json = {'current_user': user}
-        user = spot.me()['id']
-        user_json = {'current_user': user}
-        return user_json
-        # auth_url = auth_manager.get_authorize_url()
-        # return {"auth_url": auth_url}
+        # spot = spotipy.Spotify(auth_manager=auth_manager)
+        # user = spot.me()['id']
+        # user_json = {'current_user': user}
+        # user = spot.me()['id']
+        # user_json = {'current_user': user}
+        # return user_json
+        auth_url = auth_manager.get_authorize_url()
+        return {"auth_url": auth_url}
     
     elif state == 'callback':
         # global spot
@@ -221,6 +221,29 @@ async def spotify_auth(state):
     result = auth(state)
     response_json = jsonable_encoder(result)
     return JSONResponse(content=response_json)
+
+@app.get("/callback")
+async def spotify_callback(request: Request):
+    auth_code = request.query_params.get('code')
+    # auth_manager = SpotifyOAuth(cache_handler=None)  # Disable caching in production
+    spot_client = os.environ["spotify_client_id"]
+    spot_token = os.environ["spotify_token"]
+    redirect = os.environ["redirect_uri"]
+    scopes = "playlist-read-private,user-top-read, playlist-modify-public"
+        
+    
+    auth_manager = SpotifyOAuth(
+        client_id= spot_client,
+        client_secret=spot_token,
+        redirect_uri= redirect,
+        scope=scopes,
+        cache_handler=None
+    )
+    auth_manager.get_access_token(auth_code)
+    global spot
+    spot = spotipy.Spotify(auth_manager=auth_manager)
+    user = spot.current_user()['id']
+    return {'current_user': user}
 
 @app.post("/recommendations", response_class=JSONResponse)
 async def recs(body: Recs_Model):
