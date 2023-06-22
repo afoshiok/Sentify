@@ -1,5 +1,7 @@
 import logging
+from urllib import request
 from dotenv import load_dotenv
+# import requests
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 import uvicorn
 import os
@@ -143,17 +145,27 @@ def auth(state):
         client_secret=spot_token,
         redirect_uri= redirect,
         scope=scopes,
-        cache_handler=MemoryCacheHandler()
+        cache_handler=None
     )
     
     if state == 'login':
+        # spot = spotipy.Spotify(auth_manager=auth_manager)
+        # user = spot.me()['id']
+        # user_json = {'current_user': user}
+        # user = spot.me()['id']
+        # user_json = {'current_user': user}
+        # return user_json
+        auth_url = auth_manager.get_authorize_url()
+        return {"auth_url": auth_url}
+    
+    elif state == 'callback':
         global spot
+        auth_code = request.GET.get('code')
+        print(auth_code)
+        auth_manager.get_access_token(auth_code)
         spot = spotipy.Spotify(auth_manager=auth_manager)
-        user = spot.me()['id']
-        user_json = {'current_user': user}
-        user = spot.me()['id']
-        user_json = {'current_user': user}
-        return user_json
+        user = spot.current_user()['id']
+        return {'current_user': user}
 
     elif state == 'logout':
         auth_manager.cache_handler.clear()
