@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI()
 
 origins = [
-    "*"
+    "http://localhost:3000" #For debugging
 ]
 
 app.add_middleware(

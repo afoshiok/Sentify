@@ -27,9 +27,13 @@
         .then((response) => {
             console.log(response.data)
             store.$patch({
-                user: response.data.current_user
+                user: response.data.auth_url
             })
             router.push({name: 'Playlist'})
+        })
+        .then(() => {
+            //FIXME: RUNNING INTO ERRORS HERE, REFER TO LAST CHATGPT SOLUTION. Hint: follow this guide - https://developer.spotify.com/documentation/web-api/tutorials/code-flow
+            axios.get(store.user)
         })
         .catch((error) =>{
             console.log(error)
