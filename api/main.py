@@ -223,11 +223,11 @@ async def spotify_auth():
     # auth_code = auth_manager.get_cached_token()
     # result = {"auth_code": auth_code}
     # response_json = jsonable_encoder(result)
-    auth_manager.get_cached_token()
+    token = auth_manager.get_cached_token()
     global spot
     spot = spotipy.Spotify(auth_manager=auth_manager)
-    user = spot.current_user()['id']
-    user_response = {'current_user': user}
+    # user = spot.current_user()['id']
+    user_response = {'current_user': token}
     return JSONResponse(content=user_response)
 
 @app.get("/callback")
