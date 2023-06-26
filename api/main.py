@@ -132,7 +132,7 @@ def recommendations(type,term: str,num_songs: int, sentence: str):
         print(playlist['id'])
         return [f"https://open.spotify.com/playlist/{playlist['id']}", sentiment_score]
 
-def auth(state):
+def auth():
     spot_client = os.environ["spotify_client_id"]
     spot_token = os.environ["spotify_token"]
     redirect = os.environ["redirect_uri"]
@@ -146,30 +146,31 @@ def auth(state):
         scope=scopes,
         cache_handler=None
     )
+    return auth_manager
     
-    if state == 'login':
-        global spot
-        # spot = spotipy.Spotify(auth_manager=auth_manager)
-        # user = spot.me()['id']
-        # user_json = {'current_user': user}
-        # user = spot.me()['id']
-        # user_json = {'current_user': user}
-        # return user_json
-        auth_url = auth_manager.get_authorize_url()
-        return {"auth_url": auth_url}
+    # if state == 'login':
+    #     # global spot
+    #     # spot = spotipy.Spotify(auth_manager=auth_manager)
+    #     # user = spot.me()['id']
+    #     # user_json = {'current_user': user}
+    #     # user = spot.me()['id']
+    #     # user_json = {'current_user': user}
+    #     # return user_json
+    #     auth_url = auth_manager.get_authorize_url()
+    #     return {"auth_url": auth_url}
     
-    elif state == 'callback':
-        # global spot
-        # auth_code = request.GET.get('code')
-        # print(auth_code)
-        # auth_manager.get_access_token(auth_code)
-        # spot = spotipy.Spotify(auth_manager=auth_manager)
-        # user = spot.current_user()['id']
-        # return {'current_user': user}
-        return {"message": "Please use the correct callback endpoint"}
+    # elif state == 'callback':
+    #     # global spot
+    #     # auth_code = request.GET.get('code')
+    #     # print(auth_code)
+    #     # auth_manager.get_access_token(auth_code)
+    #     # spot = spotipy.Spotify(auth_manager=auth_manager)
+    #     # user = spot.current_user()['id']
+    #     # return {'current_user': user}
+    #     return {"message": "Please use the correct callback endpoint"}
 
-    elif state == 'logout':
-        auth_manager.cache_handler.clear()
+    # elif state == 'logout':
+    #     auth_manager.cache_handler.clear()
 
 def tops(choice,term):
     """
@@ -216,11 +217,18 @@ def tops(choice,term):
 async def healthcheck():
     return 'Health - OK'
 
-@app.get("/auth/{state}", response_class=JSONResponse)
-async def spotify_auth(state):
-    result = auth(state)
-    response_json = jsonable_encoder(result)
-    return JSONResponse(content=response_json)
+@app.get("/auth/login", response_class=JSONResponse)
+async def spotify_auth():
+    auth_manager = auth()
+    auth_code = auth_manager.get_authorization_code()
+    # result = {"auth_code": auth_code}
+    # response_json = jsonable_encoder(result)
+    auth_manager.get_access_token(auth_code)
+    global spot
+    spot = spotipy.Spotify(auth_manager=auth_manager)
+    user = spot.current_user()['id']
+    user_response = {'current_user': user}
+    return JSONResponse(content=user_response)
 
 @app.get("/callback")
 async def spotify_callback(request: Request):
