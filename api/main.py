@@ -220,10 +220,10 @@ async def healthcheck():
 @app.get("/auth/login", response_class=JSONResponse)
 async def spotify_auth():
     auth_manager = auth()
-    auth_code = auth_manager.get_access_token()
+    # auth_code = auth_manager.get_cached_token()
     # result = {"auth_code": auth_code}
     # response_json = jsonable_encoder(result)
-    auth_manager.get_access_token(auth_code)
+    auth_manager.get_cached_token()
     global spot
     spot = spotipy.Spotify(auth_manager=auth_manager)
     user = spot.current_user()['id']
