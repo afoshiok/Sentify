@@ -11,7 +11,7 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
-from spotipy import CacheHandler, MemoryCacheHandler
+from spotipy import MemoryCacheHandler
 
 
 
@@ -144,7 +144,7 @@ def auth():
         client_secret=spot_token,
         redirect_uri= redirect,
         scope=scopes,
-        cache_handler=None
+        cache_handler=MemoryCacheHandler
     )
     return auth_manager
 
