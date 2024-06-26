@@ -144,7 +144,7 @@ def auth():
         client_secret=spot_token,
         redirect_uri= redirect,
         scope=scopes,
-        cache_handler=MemoryCacheHandler
+        # cache_handler=MemoryCacheHandler
     )
     return auth_manager
 
